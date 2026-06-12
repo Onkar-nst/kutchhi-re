@@ -1,163 +1,101 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { servicesData } from "../data";
-import { useEffect, useRef, useState } from "react";
 
 interface ServiceCardProps {
   title: string;
-  description: string;
   image: string;
   link: string;
-  gridSpan?: string;
-  isDesktop?: boolean;
+  span: string;
+  index: number;
 }
 
-const ServiceCard = ({ title, description, image, link, gridSpan, isDesktop }: ServiceCardProps) => {
+const ServiceCard = ({ title, image, link, span, index }: ServiceCardProps) => {
   return (
-    <Link 
-      to={link} 
-      className={`relative ${isDesktop ? gridSpan : 'w-[85vw] h-[450px] shrink-0'} rounded-[2.5rem] md:rounded-4xl overflow-hidden group cursor-pointer bg-black block`}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
+      className={`${span} h-[190px] sm:h-[240px] lg:h-[280px]`}
     >
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-80"
-        style={{ backgroundImage: `url("${image}")` }}
-      />
-      <div className="absolute top-6 right-6 md:top-8 md:right-8 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border border-white/40 text-white group-hover:bg-white group-hover:text-black group-hover:border-white shadow-lg transition-all duration-300 z-10">
-        <ArrowRight strokeWidth={1.5} size={24} className="group-hover:-rotate-45 transition-transform duration-300" />
-      </div>
+      <Link
+        to={link}
+        className="group relative block w-full h-full rounded-3xl lg:rounded-4xl overflow-hidden bg-gray-900"
+      >
+        {/* Image fills the card */}
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        {/* Legibility gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/5 group-hover:from-black/80 transition-colors duration-500" />
 
-      <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-xl border border-transparent group-hover:border-white/10 p-6 md:p-8 rounded-[1.8rem] md:rounded-[2rem]">
-        <h3 className="text-white font-bold text-[1.8rem] md:text-[3rem] tracking-tight leading-none drop-shadow-md group-hover:drop-shadow-none transition-all duration-300">
+        {/* Circular arrow — top right */}
+        <div className="absolute top-5 right-5 md:top-6 md:right-6 w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/40 bg-white/5 backdrop-blur-sm flex items-center justify-center text-white group-hover:bg-white group-hover:text-black group-hover:-rotate-45 transition-all duration-300">
+          <ArrowUpRight size={20} strokeWidth={2} />
+        </div>
+
+        {/* Title — bottom left */}
+        <h3 className="absolute bottom-6 left-6 md:bottom-8 md:left-8 right-6 text-white font-bold text-[1.75rem] md:text-[2.5rem] tracking-[-0.02em] leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
           {title}
         </h3>
-        <div className={`grid ${isDesktop ? 'grid-rows-[0fr] group-hover:grid-rows-[1fr]' : 'grid-rows-[1fr]'} transition-all duration-500 ease-in-out`}>
-          <div className="overflow-hidden">
-            <p className={`text-white/80 font-medium text-[14px] md:text-[15px] max-w-2xl leading-relaxed mt-3 ${isDesktop ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'} transition-opacity duration-300 delay-100`}>
-              {description}
-            </p>
-          </div>
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 };
 
 export default function FeaturedServices() {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  // Bento layout — Wedding & Corporate are the two wide "hero" cards (equal attention).
+  const layout = [
+    { id: "wedding", span: "md:col-span-7" },
+    { id: "sangeet", span: "md:col-span-5" },
+    { id: "buffet", span: "md:col-span-5" },
+    { id: "corporate", span: "md:col-span-7" },
+  ];
 
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel || window.innerWidth >= 768) return;
-
-    let isPaused = false;
-    const interval = setInterval(() => {
-      if (!isPaused) {
-        const cards = carousel.querySelectorAll('.service-card-wrapper');
-        if (cards.length === 0) return;
-        
-        const cardWidth = (cards[0] as HTMLElement).offsetWidth + 24;
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-
-        if (carousel.scrollLeft >= maxScroll - 5) {
-          carousel.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        }
-      }
-    }, 4000);
-
-    const handleScroll = () => {
-      if (!carousel) return;
-      const cards = carousel.querySelectorAll('.service-card-wrapper');
-      if (cards.length === 0) return;
-      const cardWidth = (cards[0] as HTMLElement).offsetWidth + 24;
-      const newActiveSlide = Math.round(carousel.scrollLeft / cardWidth);
-      setActiveSlide(newActiveSlide);
-    };
-
-    const handleTouchStart = () => { isPaused = true; };
-    const handleTouchEnd = () => { 
-      setTimeout(() => { isPaused = false; }, 2000); 
-    };
-
-    carousel.addEventListener('scroll', handleScroll);
-    carousel.addEventListener('touchstart', handleTouchStart);
-    carousel.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      clearInterval(interval);
-      carousel.removeEventListener('scroll', handleScroll);
-      carousel.removeEventListener('touchstart', handleTouchStart);
-      carousel.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, []);
+  const cards = layout
+    .map((l) => {
+      const service = servicesData.find((s) => s.id === l.id);
+      return service ? { ...service, span: l.span } : null;
+    })
+    .filter(Boolean) as (typeof servicesData[number] & { span: string })[];
 
   return (
-    <section className="bg-gray-50 w-full px-0 md:px-6 lg:px-8 py-16 md:py-24 overflow-hidden relative">
-      <div className="max-w-[1920px] mx-auto flex flex-col gap-10 md:gap-16 lg:gap-20">
-        
+    <section className="bg-gray-50 w-full px-4 md:px-6 lg:px-8 py-16 md:py-24">
+      <div className="max-w-[1920px] mx-auto flex flex-col gap-10 md:gap-16">
+
         {/* Header Section */}
-        <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-end gap-8 px-4 md:px-0">
+        <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-end gap-8">
           <div className="flex flex-col gap-4 max-w-[400px]">
             <p className="text-gray-600 text-[15px] md:text-[17px] font-medium leading-[1.6]">
-              The finest of India's cuisine is as rich and diverse as its civilization. It is an art form passed down through generations.
+              The finest of India's cuisine is as rich and diverse as its civilization — an art form passed down through generations.
             </p>
             <Link to="/services" className="text-[#e58a43] hover:text-[#d67b38] font-bold flex items-center gap-2 group transition-colors">
-              View All 8 Services <ArrowRight size={18} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
+              View All Services <ArrowRight size={18} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <h2 className="text-gray-950 font-black text-[3.2rem] sm:text-[5rem] md:text-[7.5rem] leading-[0.8] tracking-[-0.05em] text-left md:text-right">
+          <h2 className="text-gray-950 font-semibold text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
             Our Services
           </h2>
         </div>
 
-        {/* Desktop Bento Grid */}
-        <div className="hidden md:grid grid-cols-12 gap-5 w-full auto-rows-[380px]">
-          {servicesData.map((service, index) => (
-            <ServiceCard key={index} {...service} isDesktop />
+        {/* Bento grid — single column on mobile, 12-col bento on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6">
+          {cards.map((service, index) => (
+            <ServiceCard
+              key={service.id}
+              title={service.title}
+              image={service.image}
+              link={service.link}
+              span={service.span}
+              index={index}
+            />
           ))}
         </div>
-
-        {/* Unique Mobile Carousel - perspective scroll effect with Autoplay */}
-        <div className="md:hidden relative group/carousel">
-          <div 
-            ref={carouselRef}
-            className="flex overflow-x-auto gap-6 px-6 pb-14 snap-x snap-mandatory no-scrollbar scroll-smooth"
-            style={{ scrollbarWidth: 'none' }}
-          >
-            {servicesData.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ 
-                  opacity: 1, 
-                   scale: 1, 
-                  transition: { duration: 0.5, ease: "easeOut" }
-                }}
-                viewport={{ once: false, margin: "-10%" }}
-                className="snap-center shrink-0 service-card-wrapper"
-              >
-                <ServiceCard {...service} isDesktop={false} />
-              </motion.div>
-            ))}
-          </div>
-          
-          {/* Indicators */}
-          <div className="flex justify-center gap-2 mt-[-20px]">
-            {servicesData.map((_, index) => (
-              <div 
-                key={index} 
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  activeSlide === index ? 'bg-[#e58a43] w-4' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Subtle Instruction */}
 
       </div>
     </section>

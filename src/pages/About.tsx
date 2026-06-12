@@ -19,7 +19,7 @@ export default function About() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 z-0 pointer-events-none" />
 
           {/* Center text */}
-          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pointer-events-none w-full">
+          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pb-44 md:pb-0 pointer-events-none w-full">
             <motion.h2
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 0.95, y: 0 }}
@@ -32,7 +32,7 @@ export default function About() {
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, delay: 0.25 }}
-              className="text-white font-black text-[3.75rem] sm:text-[6rem] md:text-[10rem] leading-[0.85] tracking-[-0.05em] mb-4 md:mb-6 pointer-events-auto selection:bg-white/20 text-center"
+              className="text-white font-semibold text-[3.25rem] sm:text-[5rem] md:text-[7rem] leading-[0.9] tracking-[-0.02em] mb-4 md:mb-6 pointer-events-auto selection:bg-white/20 text-center"
             >
               about us
             </motion.h1>

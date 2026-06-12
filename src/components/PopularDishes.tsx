@@ -12,8 +12,8 @@ export default function PopularDishes() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 z-10 w-full">
           <div>
             <h4 className="text-[#e58a43] font-bold tracking-widest uppercase text-sm mb-2">Offer Zone</h4>
-            <h2 className="text-white font-black text-[3rem] md:text-[5rem] lg:text-[6rem] leading-[0.85] tracking-[-0.04em]">
-              popular dishes
+            <h2 className="text-white font-semibold text-[2.5rem] md:text-[4rem] lg:text-[5rem] leading-[0.9] tracking-[-0.02em]">
+              popular cuisines
             </h2>
           </div>
           <Link to="/menu" className="bg-white text-gray-950 px-[24px] py-[14px] md:px-[36px] md:py-[18px] rounded-full flex items-center justify-center border border-transparent hover:bg-gray-200 transition-colors pointer-events-auto">

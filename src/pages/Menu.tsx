@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, Download } from 'lucide-react';
+import { ArrowRight, Sparkles, Download, Eye } from 'lucide-react';
 import { useParams } from 'react-router-dom';
-import { allMenuData } from '../data';
+import { allMenuData, menuPdfs } from '../data';
 
 import MenuBrochureForm from '../forms/MenuBrochureForm';
 import { motion } from 'framer-motion';
@@ -71,7 +71,7 @@ export default function Menu() {
            1. HERO SECTION (Home DNA)
          ════════════════════════════════════════ */}
       <section className="p-3 w-full">
-        <div className="relative w-full rounded-4xl overflow-hidden bg-black flex flex-col min-h-[60vh] md:min-h-[70vh]">
+        <div className="relative w-full rounded-4xl overflow-hidden bg-black flex flex-col min-h-[70vh] md:min-h-[80vh]">
           {/* Background Image */}
           <div 
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-50"
@@ -93,7 +93,7 @@ export default function Menu() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-white font-black text-[3.5rem] sm:text-[5.5rem] md:text-[8rem] lg:text-[10rem] leading-[0.85] tracking-[-0.05em] mb-6 pointer-events-auto capitalize"
+              className="text-white font-semibold text-[3rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] leading-[0.9] tracking-[-0.02em] mb-6 pointer-events-auto capitalize"
             >
               {pageTitle.toLowerCase()}
             </motion.h1>
@@ -196,7 +196,70 @@ export default function Menu() {
       </section>
 
       {/* ════════════════════════════════════════
-           3. SUGGESTIONS & CTA
+           3. VIEWABLE MENU PDFs
+         ════════════════════════════════════════ */}
+      <section className="w-full px-3 pb-12 md:pb-20">
+        <div className="max-w-480 mx-auto flex flex-col gap-10">
+          <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-end gap-6 px-2 md:px-0">
+            <p className="text-gray-600 text-[15px] md:text-[17px] font-medium leading-[1.6] max-w-[420px]">
+              Browse our menu cards section by section. Each opens in a new tab — view it online or save it for later.
+            </p>
+            <h2 className="text-gray-950 font-semibold text-[2.4rem] sm:text-[3.4rem] md:text-[4.5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
+              Menu Cards
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {menuPdfs.map((pdf, idx) => (
+              <motion.a
+                key={idx}
+                href={pdf.file}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className="group relative rounded-[2rem] md:rounded-4xl overflow-hidden border border-black/5 aspect-[3/4] flex flex-col justify-end hover:shadow-[0_24px_70px_-20px_rgba(0,0,0,0.35)] hover:-translate-y-1 transition-all duration-500"
+              >
+                {/* PDF first-page cover as background */}
+                <img
+                  src={pdf.thumb}
+                  alt={`${pdf.title} menu cover`}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10 transition-colors duration-500" />
+
+                {/* PDF badge */}
+                <span className="absolute top-5 right-5 z-10 text-[11px] font-black uppercase tracking-widest text-white/70 bg-black/25 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/15">
+                  PDF
+                </span>
+
+                {/* Bottom content */}
+                <div className="relative z-10 p-6 md:p-7 flex flex-col gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <h3 className="text-white font-black text-[1.5rem] md:text-[1.9rem] leading-[0.95] tracking-tight drop-shadow-sm">
+                      {pdf.title}
+                    </h3>
+                    <p className="text-white/70 font-medium text-[13px] md:text-[14px] leading-relaxed">
+                      {pdf.desc}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 text-white font-bold text-[14px] md:text-[15px] bg-white/10 group-hover:bg-[#e58a43] backdrop-blur-sm border border-white/15 group-hover:border-[#e58a43] rounded-full px-5 py-2.5 w-fit transition-colors duration-500">
+                    <Eye size={17} />
+                    <span>View Menu</span>
+                    <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
+           4. SUGGESTIONS & CTA
          ════════════════════════════════════════ */}
 
 
@@ -210,7 +273,7 @@ export default function Menu() {
           <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black/20 pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center gap-8">
-            <h2 className="text-white text-[3.5rem] md:text-[6rem] font-black leading-[0.85] tracking-tight">
+            <h2 className="text-white text-[3rem] md:text-[4.5rem] font-semibold leading-[0.95] tracking-[-0.02em]">
               hungry for <br className="md:hidden" /> the rest?
             </h2>
             <p className="text-white/60 text-base md:text-xl max-w-xl font-medium leading-relaxed">

@@ -1,8 +1,38 @@
 import { useParams, Link } from "react-router-dom";
 import { servicesData } from "../data";
-import { ArrowLeft, ArrowRight, Phone, Sparkles, Shield, Clock, Users } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { ArrowLeft, ArrowRight, Phone, Sparkles, Shield, Clock, Users, ChevronDown } from "lucide-react";
+import { motion, useScroll, useTransform, useInView, useMotionValue, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import EventGallery from "../components/EventGallery";
+
+/* ────── count-up number that animates when scrolled into view ────── */
+function CountUp({ value, className }: { value: string; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const mv = useMotionValue(0);
+
+  // split leading number (e.g. "50") from suffix (e.g. "k+"); non-numeric values render as-is
+  const match = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
+  const target = match ? parseFloat(match[1]) : 0;
+  const suffix = match ? match[2] : "";
+  const decimals = match && match[1].includes(".") ? 1 : 0;
+
+  useEffect(() => {
+    if (!match || !inView) return;
+    const controls = animate(mv, target, {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => {
+        if (ref.current) ref.current.textContent = v.toFixed(decimals) + suffix;
+      },
+    });
+    return () => controls.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
+
+  if (!match) return <span className={className}>{value}</span>;
+  return <span ref={ref} className={className}>{"0" + suffix}</span>;
+}
 
 /* ────── per-service extra content ────── */
 const serviceContent: Record<string, {
@@ -10,6 +40,7 @@ const serviceContent: Record<string, {
   stats: { value: string; label: string }[];
   process: { step: string; title: string; desc: string }[];
   gallery: string[];
+  faqs: { q: string; a: string }[];
 }> = {
   wedding: {
     tagline: "Where every dish tells your love story",
@@ -29,6 +60,13 @@ const serviceContent: Record<string, {
       "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1530103862676-de889243da87?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80",
+    ],
+    faqs: [
+      { q: "What's the minimum and maximum guest count?", a: "We comfortably cater intimate gatherings of 50 right up to grand functions of 5,000+ guests — with the same quality, hygiene and timing at every scale." },
+      { q: "Can we customise the menu and arrange a tasting?", a: "Absolutely. Every wedding menu is built from scratch around your palate and family traditions, and we invite you for a full tasting session at our kitchen before the big day." },
+      { q: "Which cities and regions do you serve?", a: "We're based in Mumbai and travel pan-India for weddings — our team handles logistics, setup and staffing wherever your venue is." },
+      { q: "How far in advance should we book?", a: "For peak wedding-season dates we recommend booking 3–6 months ahead. That said, reach out anytime — we'll always try to accommodate your date." },
+      { q: "Is everything pure vegetarian?", a: "Yes. We're a 100% pure-vegetarian, FSSAI-certified kitchen specialising in authentic Gujarati and multi-cuisine spreads." },
     ],
   },
   corporate: {
@@ -50,25 +88,39 @@ const serviceContent: Record<string, {
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1530103862676-de889243da87?auto=format&fit=crop&w=800&q=80",
     ],
+    faqs: [
+      { q: "What scale of corporate events do you handle?", a: "From boardroom lunches of 20 to company galas of 2,000+ guests, we scale seamlessly while keeping presentation, branding and timing sharp." },
+      { q: "Can the menu match our brand and dietary needs?", a: "Yes — we design menus around your brand, schedule and dietary requirements, and arrange tastings for larger events and recurring contracts." },
+      { q: "Which cities and regions do you serve?", a: "We're based in Mumbai with pan-India delivery and on-site setup for corporate functions of every kind." },
+      { q: "How far in advance should we book?", a: "A week or two is ideal for plated events and gala dinners; we also handle last-minute and repeat corporate requests wherever possible." },
+      { q: "Is everything pure vegetarian?", a: "Yes — every menu is 100% pure vegetarian and FSSAI-certified, presented to executive standards." },
+    ],
   },
-  cocktail: {
-    tagline: "Small bites, unforgettable impressions",
+  sangeet: {
+    tagline: "Small bites, big beats — fuel for the dance floor",
     stats: [
-      { value: "200+", label: "Cocktail Evenings" },
-      { value: "80+", label: "Signature Recipes" },
-      { value: "30+", label: "Mocktail Options" },
+      { value: "300+", label: "Sangeet Nights" },
+      { value: "80+", label: "Mocktail Recipes" },
+      { value: "100+", label: "Snack Varieties" },
       { value: "25+", label: "Years Experience" },
     ],
     process: [
-      { step: "01", title: "Theme Selection", desc: "Choose from elegant soirée, tropical vibes, or minimalist chic — we tailor the entire experience to your theme." },
-      { step: "02", title: "Bite-Size Perfection", desc: "Our chefs create global hors d'oeuvres — from truffle arancini to paneer tikka skewers — each a work of art." },
-      { step: "03", title: "Bar Setup", desc: "A stylish mocktail bar with signature concoctions, complete with professional bartenders and curated glassware." },
-      { step: "04", title: "Roaming Service", desc: "Elegantly uniformed servers circulate your event, ensuring every guest is attended to with warmth and style." },
+      { step: "01", title: "Vibe & Theme", desc: "From neon nights to royal Rajwada, we match the food, counters and colours to the mood of your celebration." },
+      { step: "02", title: "Mocktail & Bites", desc: "A signature mocktail bar paired with live chaat, tikka and global street-food stations that keep energy high." },
+      { step: "03", title: "Dessert Theatre", desc: "Interactive dessert stations — from kulfi carts to live jalebi — that double up as the perfect backdrop." },
+      { step: "04", title: "Roaming Service", desc: "Elegantly uniformed servers circulate the floor so guests never miss a beat — or a bite." },
     ],
     gallery: [
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80",
+    ],
+    faqs: [
+      { q: "What guest count works for a sangeet night?", a: "From close-knit sangeets of 80 to high-energy nights of 2,000+ guests, our counters and roaming service keep pace with the dance floor." },
+      { q: "Can we pick our own counters and theme?", a: "Yes — choose your signature mocktail bar, live chaat and dessert stations, and we'll tailor the spread and styling to your theme." },
+      { q: "Which cities and regions do you serve?", a: "We're Mumbai-based with pan-India service for sangeet and pre-wedding functions." },
+      { q: "How far in advance should we book?", a: "2–3 months ahead is ideal during wedding season; we'll always try to make shorter notice work." },
+      { q: "Is everything pure vegetarian?", a: "Yes — 100% pure vegetarian and FSSAI-certified, from the mocktails to the desserts." },
     ],
   },
   buffet: {
@@ -90,11 +142,80 @@ const serviceContent: Record<string, {
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80",
     ],
+    faqs: [
+      { q: "How many guests can a buffet serve?", a: "Our buffets run smoothly from 50 to 5,000+ guests, with stations and staffing planned for a perfect, unhurried dining flow." },
+      { q: "Which cuisines can we choose from?", a: "Pick from authentic Gujarati, Rajasthani, Punjabi, South Indian, Chinese, Continental and more — all tailored to your event and mixed to taste." },
+      { q: "Which cities and regions do you serve?", a: "We're Mumbai-based and cater pan-India for buffets of any scale." },
+      { q: "How far in advance should we book?", a: "1–3 months ahead is ideal for large buffets; smaller events can usually be arranged on shorter notice." },
+      { q: "Is everything pure vegetarian?", a: "Yes — entirely pure vegetarian and FSSAI-certified, served with the warm hospitality we're known for." },
+    ],
   },
 };
 
 /* ────── small reusable icon map ────── */
 const iconMap = [Sparkles, Shield, Clock, Users];
+
+/* ────── FAQ accordion (click to expand) ────── */
+function FaqSection({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <section className="w-full px-3 py-10 md:py-16">
+      <div className="max-w-[1920px] mx-auto">
+        <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-end gap-8 px-2 md:px-0 mb-10 md:mb-16">
+          <div className="flex flex-col gap-4 max-w-[400px]">
+            <p className="text-gray-600 text-[15px] md:text-[17px] font-medium leading-[1.6]">
+              Everything you usually want to know before booking — answered.
+            </p>
+          </div>
+          <h2 className="text-gray-950 font-semibold text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
+            Questions,<br />Answered
+          </h2>
+        </div>
+
+        <div className="flex flex-col gap-3 md:gap-4">
+          {faqs.map((faq, idx) => {
+            const isOpen = open === idx;
+            return (
+              <div
+                key={idx}
+                className="rounded-3xl bg-white border border-gray-100 overflow-hidden transition-colors duration-300 hover:border-gray-200"
+              >
+                <button
+                  onClick={() => setOpen(isOpen ? null : idx)}
+                  className="w-full flex items-center justify-between gap-4 text-left p-6 md:p-7"
+                  aria-expanded={isOpen}
+                >
+                  <h3 className="text-gray-950 font-semibold text-[1.15rem] md:text-[1.4rem] tracking-tight leading-snug">
+                    {faq.q}
+                  </h3>
+                  <span
+                    className={`shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-full grid place-items-center transition-all duration-300 ${
+                      isOpen ? "bg-[#e58a43] text-white rotate-180" : "bg-[#e58a43]/10 text-[#e58a43]"
+                    }`}
+                  >
+                    <ChevronDown size={20} />
+                  </span>
+                </button>
+                <div
+                  className={`grid transition-all duration-500 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-gray-500 text-[14px] md:text-[16px] font-medium leading-[1.7] px-6 md:px-7 pb-6 md:pb-7 max-w-3xl">
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function ServiceDetail() {
   const { id } = useParams();
@@ -142,7 +263,7 @@ export default function ServiceDetail() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 z-0 pointer-events-none" />
 
           {/* Center text */}
-          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pointer-events-none w-full">
+          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pb-44 md:pb-0 pointer-events-none w-full">
             <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 0.7, y: 0 }} transition={{ delay: 0.15 }} className="text-[#e58a43] text-[13px] md:text-[15px] font-bold uppercase tracking-[0.25em] mb-3">
               Premium Catering
             </motion.p>
@@ -150,7 +271,7 @@ export default function ServiceDetail() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="text-white font-black text-[3.75rem] sm:text-[6rem] md:text-[10rem] leading-[0.85] tracking-[-0.05em] mb-4 md:mb-6 text-center selection:bg-white/20"
+              className="text-white font-semibold text-[3.25rem] sm:text-[5rem] md:text-[7rem] leading-[0.9] tracking-[-0.02em] mb-4 md:mb-6 text-center selection:bg-white/20"
             >
               {service.title.split(' ').map((w, i) => (
                 <span key={i}>{w}{i === 0 ? <br className="md:hidden" /> : ''}{' '}</span>
@@ -189,27 +310,28 @@ export default function ServiceDetail() {
       {/* ════════════════════════════════════════
            2. ANIMATED STATS MARQUEE (Aceternity style)
          ════════════════════════════════════════ */}
-      <section className="w-full px-3 py-6">
-        <div className="max-w-[1920px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-          {extra.stats.map((stat, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="relative rounded-[2rem] md:rounded-4xl overflow-hidden bg-white border border-gray-100 p-8 md:p-10 group hover:bg-gray-950 hover:border-gray-900 transition-colors duration-500 cursor-default"
-            >
-              <h3 className="text-gray-950 group-hover:text-white font-black text-[2.5rem] md:text-[3.5rem] tracking-[-0.04em] leading-none mb-2 transition-colors duration-500">
-                {stat.value}
-              </h3>
-              <p className="text-gray-500 group-hover:text-white/60 text-[13px] md:text-[15px] font-medium transition-colors duration-500">
-                {stat.label}
-              </p>
-              {/* Corner accent */}
-              <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-[#e58a43] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-          ))}
+      <section className="w-full px-3 py-6 md:py-8">
+        <div className="max-w-[1920px] mx-auto rounded-[2rem] md:rounded-4xl bg-white border border-gray-100 px-4 md:px-10 py-9 md:py-11">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-9 gap-x-4">
+            {extra.stats.map((stat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className={`flex flex-col items-center text-center px-2 ${idx !== 0 ? "md:border-l border-gray-100" : ""}`}
+              >
+                <CountUp
+                  value={stat.value}
+                  className="font-display text-gray-950 font-semibold text-[2rem] md:text-[2.75rem] tracking-[-0.02em] leading-none mb-2"
+                />
+                <p className="text-gray-500 text-[12.5px] md:text-[14px] font-medium">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -229,7 +351,7 @@ export default function ServiceDetail() {
               <ArrowLeft size={18} strokeWidth={2.5} className="group-hover:-translate-x-1 transition-transform" /> All Services
             </Link>
           </motion.div>
-          <motion.h2 initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="text-gray-950 font-black text-[3.2rem] sm:text-[5rem] md:text-[7.5rem] leading-[0.8] tracking-[-0.05em] text-left md:text-right">
+          <motion.h2 initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="text-gray-950 font-semibold text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
             About<br />This
           </motion.h2>
         </div>
@@ -246,38 +368,29 @@ export default function ServiceDetail() {
                 Every detail is designed to exceed your expectations, from ingredient sourcing to final plating.
               </p>
             </div>
-            <h2 className="text-gray-950 font-black text-[3.2rem] sm:text-[5rem] md:text-[7.5rem] leading-[0.8] tracking-[-0.05em] text-left md:text-right">
+            <h2 className="text-gray-950 font-semibold text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
               What's<br />Included
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {service.features?.map((feature, idx) => {
               const Icon = iconMap[idx % iconMap.length];
               return (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.12 }}
-                  className="relative rounded-[2.5rem] md:rounded-4xl overflow-hidden bg-black group h-[280px] md:h-[320px] flex flex-col justify-end p-6 md:p-8 hover:scale-[1.02] transition-transform duration-500 cursor-default"
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="rounded-3xl bg-white border border-gray-100 p-7 md:p-8 flex flex-col gap-5 hover:border-[#e58a43]/30 hover:shadow-[0_12px_40px_-15px_rgba(0,0,0,0.12)] transition-all duration-500"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-950" />
-                  <div className="absolute top-6 right-6 text-white/[0.03] text-[9rem] font-black leading-none pointer-events-none select-none">
-                    {(idx + 1).toString().padStart(2, '0')}
+                  <div className="w-12 h-12 rounded-2xl bg-[#e58a43]/10 text-[#e58a43] flex items-center justify-center">
+                    <Icon size={22} />
                   </div>
-                  {/* Glow on hover */}
-                  <div className="absolute inset-0 bg-[#e58a43]/0 group-hover:bg-[#e58a43]/5 transition-colors duration-700 rounded-4xl" />
-
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 rounded-full bg-[#e58a43] flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(229,138,67,0.3)] transition-all duration-500">
-                      <Icon size={22} />
-                    </div>
-                    <h3 className="text-white font-bold text-[1.5rem] md:text-[1.8rem] tracking-tight leading-tight">
-                      {feature}
-                    </h3>
-                  </div>
+                  <h3 className="text-gray-950 font-semibold text-[1.25rem] md:text-[1.4rem] tracking-tight leading-snug">
+                    {feature}
+                  </h3>
                 </motion.div>
               );
             })}
@@ -296,7 +409,7 @@ export default function ServiceDetail() {
                 Our proven four-step approach ensures every event we cater is nothing short of extraordinary.
               </p>
             </div>
-            <h2 className="text-gray-950 font-black text-[3.2rem] sm:text-[5rem] md:text-[7.5rem] leading-[0.8] tracking-[-0.05em] text-left md:text-right">
+            <h2 className="text-gray-950 font-semibold text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
               Our<br />Process
             </h2>
           </div>
@@ -335,6 +448,16 @@ export default function ServiceDetail() {
           </div>
         </div>
       </section>
+
+      {/* ════════════════════════════════════════
+           5.5 PHOTO GALLERY (Wedding / Sangeet / Corporate)
+         ════════════════════════════════════════ */}
+      <EventGallery defaultTab={id} />
+
+      {/* ════════════════════════════════════════
+           5.7 FAQ (per-service accordion)
+         ════════════════════════════════════════ */}
+      <FaqSection faqs={extra.faqs} />
 
       {/* ════════════════════════════════════════
            6. CTA BANNER (Dark rounded-4xl card)

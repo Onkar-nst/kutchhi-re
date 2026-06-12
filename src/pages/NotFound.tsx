@@ -28,8 +28,8 @@ export default function NotFound() {
           </p>
 
           {/* Big Heading */}
-          <h1 className="text-white font-black leading-[0.9] tracking-[-0.04em]
-            text-[70px] sm:text-[110px] md:text-[160px] lg:text-[200px]">
+          <h1 className="text-white font-semibold leading-[0.9] tracking-[-0.02em]
+            text-[60px] sm:text-[90px] md:text-[130px] lg:text-[160px]">
             oops...
           </h1>
 

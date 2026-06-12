@@ -6,15 +6,15 @@ export default function Contact() {
       {/* SubHero for Contact Page */}
       <section>
         <div className="bg-gray-50 p-3 w-full flex flex-col items-center">
-          <div className="relative w-full max-w-[1920px] rounded-4xl overflow-hidden bg-black shadow-2xl flex flex-col pb-16">
+          <div className="relative w-full max-w-[1920px] rounded-4xl overflow-hidden bg-black shadow-2xl flex flex-col min-h-[70vh] md:min-h-[80vh]">
             <div 
               className="absolute inset-0 z-0 bg-cover bg-center opacity-70"
               style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=2000&q=80")' }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/30 z-0 pointer-events-none" />
 
-            <div className="relative z-10 px-4 mt-16 md:mt-24 w-full h-[300px] md:h-[400px] flex flex-col justify-center items-center text-center">
-              <h1 className="text-white font-black text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.85] tracking-[-0.04em] mb-4">
+            <div className="relative z-10 px-4 w-full flex-1 flex flex-col justify-center items-center text-center">
+              <h1 className="text-white font-semibold text-[3rem] md:text-[5rem] lg:text-[6rem] leading-[0.9] tracking-[-0.02em] mb-4">
                 contact us
               </h1>
               <p className="text-white/80 font-medium text-[15px] md:text-[18px] max-w-2xl px-4">
@@ -38,9 +38,9 @@ export default function Contact() {
             </p>
           </div>
           <div className="w-full md:w-auto flex flex-col gap-4">
-            <a 
-              href="https://maps.google.com" 
-              target="_blank" 
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Plot+No.+103%2C+Laxmi+Narayan+Ln%2C+Opp.+Rambaug+Hall%2C+Matunga%2C+Mumbai+400019"
+              target="_blank"
               rel="noopener noreferrer"
               className="bg-black text-white px-10 py-5 rounded-full font-bold text-center hover:bg-gray-900 transition-colors shadow-xl"
             >

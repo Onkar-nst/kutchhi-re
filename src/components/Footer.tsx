@@ -6,37 +6,16 @@ export default function Footer() {
     <footer className="w-full bg-gray-50 p-3 mb-20 md:mb-0 flex flex-col items-center">
       
       {/* Massive Dark Rounded Container */}
-      <div className="relative w-full max-w-480 rounded-4xl overflow-hidden bg-black flex flex-col justify-end min-h-137.5 md:min-h-175 ">
-        
+      <div className="relative w-full max-w-480 rounded-4xl overflow-hidden bg-black flex flex-col justify-end min-h-87.5 md:min-h-125 ">
+
         {/* Background Overlay */}
-        <div 
+        <div
           className="absolute inset-0 z-0 bg-cover bg-center opactiy-[0.85]"
-          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=2070&q=80")'  }} 
+          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=2070&q=80")'  }}
         />
         <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" />
 
-        {/* Top Half: Newsletter Content */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-24 pb-12 px-6">
-          <h2 className="text-white font-black text-[3.5rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[7.5rem] leading-[0.85] tracking-[-0.05em] text-center  mb-8">
-            Join the community!
-          </h2>
-          
-          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-2xl mb-4 relative z-20">
-            <input 
-              type="email" 
-              placeholder="email@kutchhicaterers.com" 
-              className="flex-1 bg-white text-gray-900 px-6 py-4.5 md:py-5 rounded-full outline-none font-medium text-[16px] md:text-[18px] placeholder:text-gray-400  focus:ring-4 focus:ring-white/20 transition-all border border-gray-100"
-            />
-            <button className="bg-[#e58a43] hover:bg-[#d67129] text-white px-10 py-4.5 md:py-5 rounded-full font-bold text-[16px] md:text-[18px] transition-colors  whitespace-nowrap">
-              Sign Up
-            </button>
-          </div>
-          <p className="text-white/80 font-medium text-[13px] md:text-[15px]  text-center">
-            No spam. Just weekly delicious news from the catering world.
-          </p>
-        </div>
-
-        {/* Bottom Half: Frosted Glass Panel */}
+        {/* Frosted Glass Panel */}
         <div className="relative z-10 w-full bg-linear-to-t from-black/90 via-black/80 to-transparent pt-32 pb-12 px-6 flex flex-col items-center justify-end">
           
           {/* Social Icons Row */}
@@ -95,18 +74,6 @@ export default function Footer() {
               </span>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Cultural Banner: Atithi Devo Bhava */}
-      <div className="w-full flex justify-center py-12 md:py-16">
-        <div className="flex flex-col items-center gap-4 text-center px-6">
-          <div className="flex items-center gap-3">
-            <div className="h-px w-8 md:w-12 bg-[#7A1A1A]/30"></div>
-            <span className="text-[#7A1A1A] font-serif italic text-2xl md:text-3xl lg:text-4xl tracking-tight">Atithi Devo Bhava</span>
-            <div className="h-px w-8 md:w-12 bg-[#7A1A1A]/30"></div>
-          </div>
-          <p className="text-gray-400 font-medium text-xs md:text-sm tracking-[0.3em] uppercase ml-1">The Guest is God</p>
         </div>
       </div>
     </footer>

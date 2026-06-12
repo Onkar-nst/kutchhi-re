@@ -20,7 +20,7 @@ export default function ContactForm() {
               <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white/90 font-bold text-sm tracking-wide mb-4 border border-white/20">
                 Book Us
               </span>
-              <h2 className="text-white font-black text-[3rem] md:text-[5rem] lg:text-[6.5rem] leading-[0.85] tracking-[-0.04em] mb-4">
+              <h2 className="text-white font-semibold text-[2.5rem] md:text-[4rem] lg:text-[5rem] leading-[0.9] tracking-[-0.02em] mb-4">
                 your dream <br/> event
               </h2>
               <p className="text-white/80 font-medium text-[15px] md:text-[17px] max-w-md leading-relaxed">
@@ -83,18 +83,28 @@ export default function ContactForm() {
 
         {/* Bottom Small Info Bento */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gray-50 rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3 border border-black/5 hover:bg-gray-100 transition-colors">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-[#e58a43]">
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Plot+No.+103%2C+Laxmi+Narayan+Ln%2C+Opp.+Rambaug+Hall%2C+Matunga%2C+Mumbai+400019"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gray-50 rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3 border border-black/5 hover:bg-gray-100 hover:border-[#e58a43]/30 transition-colors group"
+          >
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-[#e58a43] group-hover:bg-[#e58a43] group-hover:text-white transition-colors">
               <MapPin size={24} />
             </div>
             <p className="text-gray-900 font-black text-[15px]">Plot No. 103, Laxmi Narayan Ln, Opp. Rambaug Hall, Matunga, Mumbai 400019</p>
-          </div>
-          <div className="bg-gray-50 rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3 border border-black/5 hover:bg-gray-100 transition-colors">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-[#e58a43]">
+            <span className="text-[#e58a43] font-bold text-[12px] uppercase tracking-wide">Get Directions →</span>
+          </a>
+          <a
+            href="tel:+919892134834"
+            className="bg-gray-50 rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3 border border-black/5 hover:bg-gray-100 hover:border-[#e58a43]/30 transition-colors group"
+          >
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-[#e58a43] group-hover:bg-[#e58a43] group-hover:text-white transition-colors">
               <Phone size={24} />
             </div>
             <p className="text-gray-900 font-black text-[15px] tracking-tighter">(+91) 9892134834</p>
-          </div>
+            <span className="text-[#e58a43] font-bold text-[12px] uppercase tracking-wide">Tap to Call →</span>
+          </a>
           <div className="bg-gray-50 rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3 border border-black/5 hover:bg-gray-100 transition-colors">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-[#e58a43]">
               <Clock size={24} />

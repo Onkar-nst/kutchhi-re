@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Download, X, Send } from 'lucide-react';
+import { X, Send, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { menuPdfs } from '../data';
 
 interface MenuBrochureFormProps {
   isOpen: boolean;
@@ -22,17 +23,6 @@ export default function MenuBrochureForm({ isOpen, onClose, onSuccess }: MenuBro
     }, 1500);
   };
 
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '#'; // Replace with real PDF link
-    link.download = 'Kutchhi-Caterers-Full-Menu.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    onClose();
-    // Reset form after a delay so the closing animation is smooth
-    setTimeout(() => setFormState('idle'), 500);
-  };
 
   return (
     <AnimatePresence>
@@ -62,35 +52,42 @@ export default function MenuBrochureForm({ isOpen, onClose, onSuccess }: MenuBro
 
             <div className="p-10 md:p-14">
               {formState === 'success' ? (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-center flex flex-col items-center gap-8 py-4"
+                  className="text-center flex flex-col items-center gap-6 py-2"
                 >
-                  <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-2">
-                    <Download size={48} className="animate-bounce" />
+                  <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center">
+                    <Eye size={40} className="animate-bounce" />
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <h3 className="text-[2.5rem] font-black tracking-tight leading-none text-gray-950">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-[2rem] font-semibold tracking-tight leading-none text-gray-950">
                       It's Ready!
                     </h3>
-                    <p className="text-gray-500 font-medium text-lg">
-                      Your complete catering brochure is prepared.
+                    <p className="text-gray-500 font-medium text-base">
+                      Tap any section below to view our full menu.
                     </p>
                   </div>
-                  <button 
-                    onClick={handleDownload}
-                    className="w-full bg-[#111] text-white py-6 rounded-2xl font-black text-xl tracking-tight shadow-xl hover:bg-gray-800 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
-                  >
-                    <Download size={24} />
-                    Download PDF
-                  </button>
+                  <div className="w-full flex flex-col gap-3">
+                    {menuPdfs.map((pdf) => (
+                      <a
+                        key={pdf.title}
+                        href={pdf.file}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-gray-50 hover:bg-[#111] text-gray-950 hover:text-white border border-gray-100 hover:border-[#111] py-4 px-6 rounded-2xl font-bold text-[16px] tracking-tight transition-all flex items-center justify-between gap-3 group"
+                      >
+                        <span>{pdf.title}</span>
+                        <Eye size={20} className="text-[#e58a43] group-hover:text-white transition-colors" />
+                      </a>
+                    ))}
+                  </div>
                 </motion.div>
               ) : (
                 <>
                   <div className="flex flex-col gap-4 mb-10">
                     <div className="w-12 h-1 bg-[#e58a43] rounded-full" />
-                    <h3 className="text-[2.8rem] md:text-[3.2rem] font-black tracking-tighter leading-[0.9] text-gray-950">
+                    <h3 className="text-[2.4rem] md:text-[2.9rem] font-semibold tracking-tight leading-[0.95] text-gray-950">
                       get the full <br/> menu mapped
                     </h3>
                     <p className="text-gray-500 font-medium text-[16px] leading-relaxed max-w-70">

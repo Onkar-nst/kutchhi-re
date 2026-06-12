@@ -31,7 +31,7 @@ export default function AboutVideo() {
             <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/90 font-bold text-xs md:text-sm tracking-[0.2em] uppercase">
               Cinematic Showcase
             </span>
-            <h2 className="text-white font-black text-[2.5rem] md:text-[4.5rem] leading-none tracking-tight">
+            <h2 className="text-white font-semibold text-[2.2rem] md:text-[3.5rem] leading-none tracking-[-0.02em]">
               experience <br/> our craft
             </h2>
           </div>
