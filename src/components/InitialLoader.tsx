@@ -1,43 +1,5 @@
 import { motion } from "framer-motion";
 
-const MandalaIcon = () => (
-  <svg
-    viewBox="0 0 100 100"
-    className="w-24 h-24 md:w-32 md:h-32 text-[#e58a43]"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-  >
-    <motion.path
-      d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z"
-      initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: 1 }}
-      transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-    />
-    <motion.circle
-      cx="50"
-      cy="50"
-      r="8"
-      initial={{ scale: 0 }}
-      animate={{ scale: [0, 1.2, 1] }}
-      transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-    />
-    {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
-      <motion.line
-        key={angle}
-        x1="50"
-        y1="50"
-        x2={50 + 35 * Math.cos((angle * Math.PI) / 180)}
-        y2={50 + 35 * Math.sin((angle * Math.PI) / 180)}
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.3 }}
-        transition={{ duration: 1.5, delay: 0.5, repeat: Infinity }}
-      />
-    ))}
-  </svg>
-);
-
 export default function InitialLoader() {
   return (
     <motion.div
@@ -51,15 +13,18 @@ export default function InitialLoader() {
     >
           <div className="relative flex flex-col items-center">
             <motion.div
-              initial={{ rotate: 0, scale: 0.8, opacity: 0 }}
-              animate={{ rotate: 360, scale: 1, opacity: 1 }}
-              transition={{ 
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                scale: { duration: 1, ease: "easeOut" },
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: [0.8, 1.05, 1], opacity: 1 }}
+              transition={{
+                scale: { duration: 1.2, ease: "easeOut", repeat: Infinity, repeatType: "reverse" },
                 opacity: { duration: 1 }
               }}
             >
-              <MandalaIcon />
+              <img
+                src="/logo.png"
+                alt="Kutchhi Caterers Logo"
+                className="w-24 h-24 md:w-32 md:h-32 object-contain"
+              />
             </motion.div>
 
             <motion.div
