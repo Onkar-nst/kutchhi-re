@@ -1,9 +1,42 @@
+import { useState } from "react";
 import { Play } from "lucide-react";
+import { aboutShowcaseVideo, youtubeShortId } from "../data";
 
 export default function AboutVideo() {
+  const [playing, setPlaying] = useState(false);
+  const videoId = youtubeShortId(aboutShowcaseVideo);
+
+  if (playing && videoId) {
+    return (
+      <section className="bg-gray-50 w-full px-4 md:px-6 lg:px-8 pb-16 md:pb-24 flex flex-col items-center">
+        <div className="w-full max-w-[1920px] relative aspect-[4/5] sm:aspect-video rounded-4xl overflow-hidden bg-black shadow-2xl">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
+            title="Cinematic Showcase"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-gray-50 w-full px-4 md:px-6 lg:px-8 pb-16 md:pb-24 flex flex-col items-center">
-      <div className="w-full max-w-[1920px] relative aspect-video rounded-4xl  overflow-hidden bg-black shadow-2xl group cursor-pointer">
+      <button
+        type="button"
+        onClick={() => setPlaying(true)}
+        aria-label="Play showcase video"
+        className="w-full max-w-[1920px] relative aspect-[4/5] sm:aspect-video rounded-4xl  overflow-hidden bg-black shadow-2xl group cursor-pointer block text-left"
+      >
+
+        {/* Top badge — mobile only (desktop shows it bottom-left) */}
+        <div className="absolute top-6 left-6 right-6 z-20 md:hidden flex justify-center">
+          <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/90 font-bold text-xs tracking-[0.2em] uppercase">
+            Cinematic Showcase
+          </span>
+        </div>
         
         {/* Video Thumbnail / Placeholder */}
         <img 
@@ -27,7 +60,7 @@ export default function AboutVideo() {
 
         {/* Bottom Text */}
         <div className="absolute bottom-12 left-12 right-12 z-20 flex flex-col md:flex-row items-end justify-between gap-8">
-          <div className="flex flex-col gap-4">
+          <div className="hidden md:flex flex-col gap-4">
             <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/90 font-bold text-xs md:text-sm tracking-[0.2em] uppercase">
               Cinematic Showcase
             </span>
@@ -50,7 +83,7 @@ export default function AboutVideo() {
             <span className="text-white/40 font-bold text-xs tracking-widest uppercase">Since 1999</span>
           </div>
         </div>
-      </div>
+      </button>
     </section>
   );
 }

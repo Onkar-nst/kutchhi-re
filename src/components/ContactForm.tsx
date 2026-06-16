@@ -15,11 +15,13 @@ export default function ContactForm() {
               style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80")' }}
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"></div>
-            
+
+            {/* Book Us badge — pinned top-left */}
+            <span className="absolute top-8 left-8 md:top-12 md:left-12 z-10 inline-block px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white/90 font-bold text-sm tracking-wide border border-white/20">
+              Book Us
+            </span>
+
             <div className="relative z-10">
-              <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white/90 font-bold text-sm tracking-wide mb-4 border border-white/20">
-                Book Us
-              </span>
               <h2 className="text-white font-semibold text-[2.5rem] md:text-[4rem] lg:text-[5rem] leading-[0.9] tracking-[-0.02em] mb-4">
                 your dream <br/> event
               </h2>

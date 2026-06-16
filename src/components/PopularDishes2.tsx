@@ -58,6 +58,18 @@ export default function PopularDishes2() {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/20 z-0" />
 
+                {/* Always-visible close button on the active panel (mobile) */}
+                {isActive && (
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setActive(null); }}
+                    aria-label="Close"
+                    className="md:hidden absolute top-4 right-4 z-30 w-10 h-10 rounded-full border border-white/25 bg-black/50 backdrop-blur-md flex items-center justify-center text-white"
+                  >
+                    <X size={20} />
+                  </button>
+                )}
+
                 {/* Collapsed label — hidden once the panel is open */}
                 <div className={`absolute inset-0 flex items-end md:items-center justify-between md:justify-center px-5 pb-6 md:px-0 md:pb-12 z-10 transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100 md:group-hover:opacity-0'}`}>
                   <h3 className="text-white font-bold text-[1.5rem] md:text-[2rem] tracking-tight leading-none md:-rotate-90 md:-translate-y-24 whitespace-nowrap drop-shadow-lg">
@@ -70,11 +82,11 @@ export default function PopularDishes2() {
                 </div>
 
                 {/* Opened details — revealed in place on tap (mobile) / hover-click (desktop) */}
-                <div className={`absolute inset-x-3 bottom-3 md:inset-x-4 md:bottom-4 lg:inset-x-6 lg:bottom-6 border border-white/20 bg-black/50 backdrop-blur-xl rounded-3xl p-5 md:p-7 transition-all duration-500 z-20 flex flex-col gap-4 ${
+                <div className={`absolute inset-x-3 bottom-3 md:inset-x-4 md:bottom-4 lg:inset-x-6 lg:bottom-6 max-h-[calc(100%-1.5rem)] md:max-h-[calc(100%-2rem)] overflow-y-auto overscroll-contain border border-white/20 bg-black/50 backdrop-blur-xl rounded-3xl p-5 md:p-7 transition-all duration-500 z-20 flex flex-col gap-4 ${
                   isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-hover:pointer-events-auto'
                 }`}>
                   <div className="flex justify-between items-start gap-4">
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-1.5 pr-10 md:pr-0">
                       <h3 className="text-white font-black text-[1.6rem] md:text-[2.2rem] lg:text-[2.8rem] tracking-[-0.03em] leading-none drop-shadow-md">
                         {pdf.title}
                       </h3>
@@ -82,12 +94,12 @@ export default function PopularDishes2() {
                         {pdf.desc}
                       </p>
                     </div>
-                    {/* Close on mobile */}
+                    {/* Close on desktop hover panel */}
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); setActive(null); }}
                       aria-label="Close"
-                      className="md:hidden shrink-0 w-9 h-9 rounded-full border border-white/25 bg-white/10 flex items-center justify-center text-white"
+                      className="hidden md:flex shrink-0 w-9 h-9 rounded-full border border-white/25 bg-white/10 items-center justify-center text-white"
                     >
                       <X size={18} />
                     </button>

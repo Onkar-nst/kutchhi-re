@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { servicesData } from "../data";
 
 interface ServiceCardProps {
@@ -64,6 +65,21 @@ export default function FeaturedServices() {
     })
     .filter(Boolean) as (typeof servicesData[number] & { span: string })[];
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeDot, setActiveDot] = useState(0);
+
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
+      setActiveDot(0);
+      return;
+    }
+    const progress = el.scrollLeft / maxScroll;
+    setActiveDot(Math.round(progress * (cards.length - 1)));
+  };
+
   return (
     <section className="bg-gray-50 w-full px-4 md:px-6 lg:px-8 py-16 md:py-24">
       <div className="max-w-[1920px] mx-auto flex flex-col gap-10 md:gap-16">
@@ -84,7 +100,11 @@ export default function FeaturedServices() {
         </div>
 
         {/* Peeking carousel on mobile, 12-col bento on desktop */}
-        <div className="flex md:grid md:grid-cols-12 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory no-scrollbar touch-pan-x md:touch-auto -mr-4 pr-4 md:mr-0 md:pr-0 scroll-pl-1">
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex md:grid md:grid-cols-12 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory no-scrollbar touch-pan-x md:touch-auto -mr-4 pr-4 md:mr-0 md:pr-0 scroll-pl-1"
+        >
           {cards.map((service, index) => (
             <ServiceCard
               key={service.id}
@@ -93,6 +113,20 @@ export default function FeaturedServices() {
               link={service.link}
               span={service.span}
               index={index}
+            />
+          ))}
+        </div>
+
+        {/* Scroll indicator dots — mobile only, hint that there's more to swipe */}
+        <div className="flex md:hidden justify-center items-center gap-2 -mt-4">
+          {cards.map((_, index) => (
+            <span
+              key={index}
+              className={`rounded-full transition-all duration-300 ${
+                index === activeDot
+                  ? "w-6 h-2 bg-[#e58a43]"
+                  : "w-2 h-2 bg-gray-300"
+              }`}
             />
           ))}
         </div>

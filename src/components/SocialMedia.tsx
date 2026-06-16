@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Instagram, Youtube, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import { youtubeShorts, youtubeShortId, youtubeChannelUrl } from "../data";
@@ -16,10 +16,12 @@ function ShortPhone({ url, index }: { url: string; index: number }) {
       className="w-full"
     >
       {/* Clean reel card on mobile → phone shell on desktop */}
-      <div className="relative rounded-[1.6rem] md:rounded-[2.5rem] bg-black p-0 md:p-2.5 border border-white/10 md:border-black/10 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)]">
-        {/* Notch — desktop phone only */}
-        <div className="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full z-20" />
-        <div className="relative w-full aspect-[9/16] rounded-[1.6rem] md:rounded-[2rem] overflow-hidden bg-gray-900">
+      <div className="relative rounded-[1.7rem] md:rounded-[2.5rem] bg-black p-1.5 md:p-2.5 border border-white/10 md:border-black/10 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)]">
+        <div className="relative w-full aspect-[9/16] rounded-[1.3rem] md:rounded-[2rem] overflow-hidden bg-gray-900">
+          {/* iPhone-style Dynamic Island */}
+          <div className="absolute top-2.5 md:top-3 left-1/2 -translate-x-1/2 z-30 flex items-center justify-end gap-2 h-6 md:h-7 w-[30%] max-w-[112px] bg-black rounded-full pr-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.4)] pointer-events-none">
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#0b0f1a] ring-[1.5px] ring-white/10 shadow-[inset_0_0_2px_rgba(80,120,255,0.4)]" />
+          </div>
           {playing && id ? (
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
@@ -68,6 +70,29 @@ export default function SocialMedia() {
   // Start with the bundled fallback, then swap in the channel's live latest shorts.
   const [shorts, setShorts] = useState<string[]>(youtubeShorts);
 
+  // Mobile carousel: track the active reel so the dots stay in sync with scroll.
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const onTrackScroll = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const slide = el.firstElementChild as HTMLElement | null;
+    if (!slide) return;
+    // Slide width + gap → which reel is snapped to the start edge.
+    const step = slide.offsetWidth + 16; // gap-4 = 16px
+    setActive(Math.round(el.scrollLeft / step));
+  };
+
+  const scrollToIndex = (i: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const slide = el.firstElementChild as HTMLElement | null;
+    if (!slide) return;
+    const step = slide.offsetWidth + 16;
+    el.scrollTo({ left: i * step, behavior: "smooth" });
+  };
+
   useEffect(() => {
     let cancelled = false;
     fetch("/api/youtube-shorts")
@@ -101,32 +126,66 @@ export default function SocialMedia() {
           </div>
         </div>
 
-        {/* 4 Shorts — compact 2×2 reel grid on mobile, 4 phone mockups on desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-          {shorts.slice(0, SHORTS_SHOWN).map((short, i) => (
-            <ShortPhone key={short} url={short} index={i} />
-          ))}
+        {/* Shorts — swipeable carousel on mobile (first reel + a peek of the next),
+            4 phone mockups on desktop */}
+        <div>
+          {/* Mobile: horizontal snap carousel */}
+          <div
+            ref={trackRef}
+            onScroll={onTrackScroll}
+            className="md:hidden flex gap-4 overflow-x-auto touch-pan-x -mx-8 px-8 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain"
+          >
+            {shorts.slice(0, SHORTS_SHOWN).map((short, i) => (
+              <div key={short} className="shrink-0 w-[78%]">
+                <ShortPhone url={short} index={i} />
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile: dots indicating more content */}
+          <div className="md:hidden flex items-center justify-center gap-2 mt-5">
+            {shorts.slice(0, SHORTS_SHOWN).map((short, i) => (
+              <button
+                key={short}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Go to short ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === active ? "w-6 bg-[#e58a43]" : "w-2 bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Desktop: 4 phone mockups */}
+          <div className="hidden md:grid md:grid-cols-4 md:gap-6 lg:gap-8">
+            {shorts.slice(0, SHORTS_SHOWN).map((short, i) => (
+              <ShortPhone key={short} url={short} index={i} />
+            ))}
+          </div>
         </div>
 
         {/* Social CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
           <a
             href={youtubeChannelUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto bg-[#FF0000] text-white px-8 py-4 rounded-full font-bold text-[16px] flex items-center justify-center gap-3 hover:bg-[#cc0000] hover:scale-[1.02] transition-all shadow-lg"
+            className="flex-1 sm:flex-none sm:w-auto bg-[#FF0000] text-white px-4 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-[13px] sm:text-[16px] flex items-center justify-center gap-2 sm:gap-3 hover:bg-[#cc0000] hover:scale-[1.02] transition-all shadow-lg whitespace-nowrap"
           >
-            <Youtube size={22} fill="white" className="text-[#FF0000]" />
-            Subscribe on YouTube
+            <Youtube size={20} fill="white" className="shrink-0 text-[#FF0000] sm:w-[22px] sm:h-[22px]" />
+            <span className="sm:hidden">Subscribe</span>
+            <span className="hidden sm:inline">Subscribe on YouTube</span>
           </a>
           <a
             href="https://www.instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto bg-gradient-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5] text-white px-8 py-4 rounded-full font-bold text-[16px] flex items-center justify-center gap-3 hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg"
+            className="flex-1 sm:flex-none sm:w-auto bg-gradient-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5] text-white px-4 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-[13px] sm:text-[16px] flex items-center justify-center gap-2 sm:gap-3 hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg whitespace-nowrap"
           >
-            <Instagram size={22} />
-            Follow on Instagram
+            <Instagram size={20} className="shrink-0 sm:w-[22px] sm:h-[22px]" />
+            <span className="sm:hidden">Follow</span>
+            <span className="hidden sm:inline">Follow on Instagram</span>
           </a>
         </div>
       </div>

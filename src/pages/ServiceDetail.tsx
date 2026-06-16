@@ -157,7 +157,7 @@ const iconMap = [Sparkles, Shield, Clock, Users];
 
 /* ────── FAQ accordion (click to expand) ────── */
 function FaqSection({ faqs }: { faqs: { q: string; a: string }[] }) {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <section className="w-full px-3 py-10 md:py-16">
@@ -312,7 +312,10 @@ export default function ServiceDetail() {
          ════════════════════════════════════════ */}
       <section className="w-full px-3 py-6 md:py-8">
         <div className="max-w-[1920px] mx-auto rounded-[2rem] md:rounded-4xl bg-white border border-gray-100 px-4 md:px-10 py-9 md:py-11">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-9 gap-x-4">
+          <div
+            className="grid gap-y-9 gap-x-2 md:gap-x-4"
+            style={{ gridTemplateColumns: `repeat(${extra.stats.length}, minmax(0, 1fr))` }}
+          >
             {extra.stats.map((stat, idx) => (
               <motion.div
                 key={idx}
@@ -320,13 +323,13 @@ export default function ServiceDetail() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className={`flex flex-col items-center text-center px-2 ${idx !== 0 ? "md:border-l border-gray-100" : ""}`}
+                className={`flex flex-col items-center text-center px-1 md:px-2 ${idx !== 0 ? "md:border-l border-gray-100" : ""}`}
               >
                 <CountUp
                   value={stat.value}
-                  className="font-display text-gray-950 font-semibold text-[2rem] md:text-[2.75rem] tracking-[-0.02em] leading-none mb-2"
+                  className="font-display text-gray-950 font-semibold text-[1.35rem] md:text-[2.75rem] tracking-[-0.02em] leading-none mb-2"
                 />
-                <p className="text-gray-500 text-[12.5px] md:text-[14px] font-medium">
+                <p className="text-gray-500 text-[10.5px] md:text-[14px] font-medium leading-tight">
                   {stat.label}
                 </p>
               </motion.div>

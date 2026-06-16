@@ -6,7 +6,9 @@ import { galleryData } from "../data";
 type TabKey = "wedding" | "sangeet" | "corporate";
 const TABS: TabKey[] = ["corporate", "wedding", "sangeet"];
 
-// Photo grid is capped to 2 rows (4 cols × 2). The last visible tile reveals the rest.
+// Photo grid is capped to keep it tidy: 3 rows on mobile (2 cols × 3 = 6),
+// 2 rows on desktop (4 cols × 2 = 8). The last visible tile reveals the rest.
+const MOBILE_VISIBLE = 6;
 const MAX_VISIBLE = 8;
 
 // Splits a stat like "500+", "50k+", "5★", "24/7" or "∞" into an animatable
@@ -55,6 +57,20 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
   const [lightbox, setLightbox] = useState<number | null>(null);
   const photos = data.photos;
   const isOpen = lightbox !== null;
+
+  // Touch swipe (mobile): remember where a drag started to decide next/prev.
+  const touchStartX = useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(dx) < 45) return; // ignore taps / tiny drags
+    if (dx < 0) next();
+    else prev();
+  };
 
   const close = useCallback(() => setLightbox(null), []);
   const next = useCallback(
@@ -129,14 +145,14 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
               <p className="text-gray-500 text-[14px] md:text-[16px] font-medium leading-relaxed">
                 {data.detail}
               </p>
-              <div className="flex flex-wrap gap-x-14 md:gap-x-24 gap-y-8 mt-8 pt-8 border-t border-gray-200/70">
+              <div className="flex flex-nowrap items-start gap-x-4 sm:gap-x-10 md:gap-x-24 gap-y-8 mt-8 pt-8 border-t border-gray-200/70">
                 {data.stats.map((stat, idx) => (
-                  <div key={idx} className="flex flex-col gap-2.5">
+                  <div key={idx} className="flex flex-col gap-1.5 md:gap-2.5 min-w-0">
                     <CountUpStat
                       value={stat.value}
-                      className="text-gray-950 font-semibold text-[2.8rem] md:text-[3.8rem] leading-none tracking-[-0.02em] tabular-nums"
+                      className="text-gray-950 font-semibold text-[1.7rem] sm:text-[2.8rem] md:text-[3.8rem] leading-none tracking-[-0.02em] tabular-nums"
                     />
-                    <span className="text-gray-400 text-[12px] md:text-[14px] font-semibold uppercase tracking-[0.12em]">
+                    <span className="text-gray-400 text-[10px] sm:text-[12px] md:text-[14px] font-semibold uppercase tracking-[0.1em] md:tracking-[0.12em] leading-tight">
                       {stat.label}
                     </span>
                   </div>
@@ -144,11 +160,17 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
               </div>
             </div>
 
-            {/* Clean uniform photo grid — capped to 2 rows; last tile reveals the rest */}
+            {/* Clean uniform photo grid — 3 rows on mobile, 2 rows on desktop;
+                the last visible tile on each layout reveals the rest. */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-4">
               {photos.slice(0, MAX_VISIBLE).map((photo, i) => {
-                const isOverflowTile = photos.length > MAX_VISIBLE && i === MAX_VISIBLE - 1;
-                const remaining = photos.length - MAX_VISIBLE;
+                // 7th & 8th tiles only exist on the desktop (lg) 2-row layout.
+                const lgOnly = i >= MOBILE_VISIBLE;
+                // "+N" overflow tile: index 5 on mobile/tablet, index 7 on desktop.
+                const isMobileOverflow = photos.length > MOBILE_VISIBLE && i === MOBILE_VISIBLE - 1;
+                const isDesktopOverflow = photos.length > MAX_VISIBLE && i === MAX_VISIBLE - 1;
+                const mobileRemaining = photos.length - MOBILE_VISIBLE;
+                const desktopRemaining = photos.length - MAX_VISIBLE;
                 return (
                   <motion.button
                     type="button"
@@ -158,7 +180,9 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-30px" }}
                     transition={{ duration: 0.4, delay: (i % 4) * 0.04 }}
-                    className="relative aspect-square rounded-[1.25rem] md:rounded-[1.5rem] overflow-hidden group bg-gray-100 cursor-pointer text-left"
+                    className={`relative aspect-square rounded-[1.25rem] md:rounded-[1.5rem] overflow-hidden group bg-gray-100 cursor-pointer text-left ${
+                      lgOnly ? "hidden lg:block" : ""
+                    }`}
                   >
                     <img
                       src={photo.src}
@@ -167,19 +191,26 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
 
-                    {isOverflowTile ? (
-                      /* Last visible tile — dimmed overlay with "+N more" */
-                      <div className="absolute inset-0 bg-black/70 group-hover:bg-black/75 transition-colors flex flex-col items-center justify-center text-white">
-                        <span className="font-bold text-[2rem] md:text-[2.75rem] leading-none tracking-tight">+{remaining}</span>
+                    {/* Caption on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <p className="absolute bottom-3 left-3 right-3 text-white text-[12px] md:text-[13px] font-semibold leading-snug opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      {photo.caption}
+                    </p>
+
+                    {/* Mobile/tablet "+N more" overlay (hidden once the desktop layout kicks in) */}
+                    {isMobileOverflow && (
+                      <div className="lg:hidden absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-white">
+                        <span className="font-bold text-[2rem] md:text-[2.75rem] leading-none tracking-tight">+{mobileRemaining}</span>
                         <span className="text-[11px] md:text-[13px] font-semibold uppercase tracking-[0.15em] mt-1.5 text-white/80">More Photos</span>
                       </div>
-                    ) : (
-                      <>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <p className="absolute bottom-3 left-3 right-3 text-white text-[12px] md:text-[13px] font-semibold leading-snug opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                          {photo.caption}
-                        </p>
-                      </>
+                    )}
+
+                    {/* Desktop "+N more" overlay */}
+                    {isDesktopOverflow && (
+                      <div className="hidden lg:flex absolute inset-0 bg-black/70 group-hover:bg-black/75 transition-colors flex-col items-center justify-center text-white">
+                        <span className="font-bold text-[2.75rem] leading-none tracking-tight">+{desktopRemaining}</span>
+                        <span className="text-[13px] font-semibold uppercase tracking-[0.15em] mt-1.5 text-white/80">More Photos</span>
+                      </div>
                     )}
                   </motion.button>
                 );
@@ -197,7 +228,7 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col"
+            className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col"
             onClick={close}
           >
             {/* Top bar: counter + close */}
@@ -215,8 +246,12 @@ export default function EventGallery({ defaultTab }: { defaultTab?: string }) {
               </button>
             </div>
 
-            {/* Main stage: arrows + image */}
-            <div className="relative flex-1 flex items-center justify-center px-4 md:px-20 min-h-0">
+            {/* Main stage: arrows + image (swipe left/right on touch) */}
+            <div
+              className="relative flex-1 flex items-center justify-center px-4 md:px-20 min-h-0"
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+            >
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); prev(); }}

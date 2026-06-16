@@ -24,7 +24,7 @@ const faqs = [
 const iconMap = [Sparkles, Shield, Clock, Users];
 
 export default function Services() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   // When arriving from a "Our Services" card on the home page (e.g. /services?tab=wedding),
   // open the matching gallery tab and scroll it into view. Unknown tabs fall back to the
@@ -38,6 +38,22 @@ export default function Services() {
       galleryRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [tab]);
+
+  // Scroll-indicator dots for the "Our Process" carousel (mobile).
+  const processRef = useRef<HTMLDivElement>(null);
+  const [activeProcess, setActiveProcess] = useState(0);
+
+  const handleProcessScroll = () => {
+    const el = processRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
+      setActiveProcess(0);
+      return;
+    }
+    const progress = el.scrollLeft / maxScroll;
+    setActiveProcess(Math.round(progress * (process.length - 1)));
+  };
 
   return (
     <div className="bg-gray-50 flex flex-col min-h-screen font-sans">
@@ -53,7 +69,7 @@ export default function Services() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 z-0 pointer-events-none" />
 
           {/* Center text */}
-          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pb-44 md:pb-0 pointer-events-none w-full">
+          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 pt-12 md:pt-0 md:mt-[-4rem] pb-4 md:pb-0 pointer-events-none w-full">
             <motion.h2
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 0.95, y: 0 }}
@@ -81,7 +97,7 @@ export default function Services() {
           </div>
 
           {/* Glass cards – bottom left */}
-          <div className="absolute bottom-[90px] left-5 md:bottom-8 md:left-8 flex gap-2.5 md:gap-4 items-end z-20">
+          <div className="absolute bottom-[90px] left-5 md:bottom-8 md:left-8 hidden md:flex gap-2.5 md:gap-4 items-end z-20">
             <div className="bg-[#ffffff]/5 backdrop-blur-[24px] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 w-[160px] md:w-[240px]">
               <h3 className="text-white font-medium tracking-[-0.04em] text-[1.75rem] md:text-[2.5rem] mb-1.5 leading-none">
                 4<span className="text-[1.25rem] md:text-[1.75rem]">+</span>
@@ -128,12 +144,12 @@ export default function Services() {
             return (
               <div
                 key={idx}
-                className="shrink-0 w-[280px] md:w-[320px] mr-4 md:mr-5 rounded-3xl bg-white border border-gray-100 p-6 md:p-7 flex items-center gap-4 hover:border-[#e58a43]/30 hover:shadow-[0_12px_40px_-15px_rgba(0,0,0,0.12)] transition-all duration-500"
+                className="shrink-0 w-max mr-4 md:mr-5 rounded-3xl bg-white border border-gray-100 p-6 md:p-7 flex items-center gap-4 hover:border-[#e58a43]/30 hover:shadow-[0_12px_40px_-15px_rgba(0,0,0,0.12)] transition-all duration-500"
               >
                 <div className="shrink-0 w-12 h-12 rounded-2xl bg-[#e58a43]/10 text-[#e58a43] flex items-center justify-center">
                   <Icon size={22} />
                 </div>
-                <h3 className="text-gray-950 font-semibold text-[1.15rem] md:text-[1.25rem] tracking-tight leading-snug">
+                <h3 className="text-gray-950 font-semibold text-[1.15rem] md:text-[1.25rem] tracking-tight leading-snug whitespace-nowrap">
                   {feature}
                 </h3>
               </div>
@@ -158,7 +174,11 @@ export default function Services() {
           </div>
 
           {/* Scrollable track */}
-          <div className="flex gap-4 md:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory touch-pan-x -mx-4 px-4 md:mx-0 md:px-0 pb-1">
+          <div
+            ref={processRef}
+            onScroll={handleProcessScroll}
+            className="flex lg:grid lg:grid-cols-4 gap-4 md:gap-5 overflow-x-auto lg:overflow-visible no-scrollbar snap-x snap-mandatory touch-pan-x -mx-4 px-4 md:mx-0 md:px-0 lg:px-0 pb-1"
+          >
             {process.map((p, idx) => (
               <motion.div
                 key={idx}
@@ -166,7 +186,7 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="relative shrink-0 snap-start w-[82%] sm:w-[60%] md:w-[46%] lg:w-[34%] rounded-[2rem] md:rounded-4xl overflow-hidden bg-white border border-gray-100 p-7 md:p-9 group hover:border-gray-200 hover:shadow-[0_8px_40px_rgba(0,0,0,0.05)] transition-all duration-500"
+                className="relative shrink-0 lg:shrink snap-start w-[82%] sm:w-[60%] md:w-[46%] lg:w-auto rounded-[2rem] md:rounded-4xl overflow-hidden bg-white border border-gray-100 p-7 md:p-9 group hover:border-gray-200 hover:shadow-[0_8px_40px_rgba(0,0,0,0.05)] transition-all duration-500"
               >
                 <div className="absolute -top-3 -right-1 text-gray-100 text-[7rem] md:text-[8.5rem] font-black leading-none pointer-events-none select-none group-hover:text-gray-50 transition-colors duration-500">
                   {p.step}
@@ -187,6 +207,20 @@ export default function Services() {
                   </p>
                 </div>
               </motion.div>
+            ))}
+          </div>
+
+          {/* Scroll indicator dots — mobile only */}
+          <div className="flex md:hidden justify-center items-center gap-2 mt-6">
+            {process.map((_, idx) => (
+              <span
+                key={idx}
+                className={`rounded-full transition-all duration-300 ${
+                  idx === activeProcess
+                    ? "w-6 h-2 bg-[#e58a43]"
+                    : "w-2 h-2 bg-gray-300"
+                }`}
+              />
             ))}
           </div>
         </div>

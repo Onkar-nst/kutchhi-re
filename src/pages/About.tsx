@@ -19,7 +19,7 @@ export default function About() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 z-0 pointer-events-none" />
 
           {/* Center text */}
-          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pb-44 md:pb-0 pointer-events-none w-full">
+          <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 pt-12 md:pt-0 md:mt-[-4rem] pb-4 md:pb-0 pointer-events-none w-full">
             <motion.h2
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 0.95, y: 0 }}
@@ -47,7 +47,7 @@ export default function About() {
           </div>
 
           {/* Glass card – bottom left */}
-          <div className="absolute bottom-[90px] left-5 md:bottom-8 md:left-8 flex gap-2.5 md:gap-4 items-end z-20">
+          <div className="absolute bottom-[90px] left-5 md:bottom-8 md:left-8 hidden md:flex gap-2.5 md:gap-4 items-end z-20">
             <div className="bg-[#ffffff]/5 backdrop-blur-[24px] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 w-[160px] md:w-[240px]">
               <h3 className="text-white font-medium tracking-[-0.04em] text-[1.75rem] md:text-[2.5rem] mb-1.5 leading-none">
                 25<span className="text-[1.25rem] md:text-[1.75rem]">+Yrs</span>

@@ -535,6 +535,10 @@ export const youtubeShorts = [
 
 export const youtubeChannelUrl = 'https://www.youtube.com/@a-la-cartecaterers9402/shorts';
 
+// The "Cinematic Showcase" video on the About page. Swap this 11-char ID for the
+// real showcase video when it's ready (accepts a full URL or bare ID).
+export const aboutShowcaseVideo = 'TEBYD2ZQ6nc';
+
 // Accepts a full youtube/shorts/watch URL or a bare 11-char ID.
 export const youtubeShortId = (urlOrId: string): string => {
   if (!urlOrId) return '';

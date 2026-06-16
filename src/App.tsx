@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
+import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import MobileNav from "./components/MobileNav";
@@ -36,6 +37,7 @@ function Layout() {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
 
         {/* WITH NAVBAR + FOOTER */}
