@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Instagram, Youtube, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import { youtubeShorts, youtubeShortId, youtubeChannelUrl } from "../data";
@@ -61,7 +61,29 @@ function ShortPhone({ url, index }: { url: string; index: number }) {
   );
 }
 
+// How many reels the phone-mockup grid shows.
+const SHORTS_SHOWN = 4;
+
 export default function SocialMedia() {
+  // Start with the bundled fallback, then swap in the channel's live latest shorts.
+  const [shorts, setShorts] = useState<string[]>(youtubeShorts);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/youtube-shorts")
+      .then((r) => r.json())
+      .then((data: { shorts?: { id: string }[] }) => {
+        const ids = (data.shorts || []).map((s) => s.id).filter(Boolean);
+        if (!cancelled && ids.length) setShorts(ids);
+      })
+      .catch(() => {
+        /* keep the fallback list */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <section className="bg-gray-50 w-full px-3 sm:px-4 md:px-5 lg:px-6 pb-16 md:pb-24 flex flex-col items-center">
       <div className="w-full max-w-[1920px] rounded-4xl overflow-hidden bg-white border border-black/5 p-8 md:p-12 lg:p-16 flex flex-col gap-12">
@@ -81,8 +103,8 @@ export default function SocialMedia() {
 
         {/* 4 Shorts — compact 2×2 reel grid on mobile, 4 phone mockups on desktop */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-          {youtubeShorts.map((short, i) => (
-            <ShortPhone key={i} url={short} index={i} />
+          {shorts.slice(0, SHORTS_SHOWN).map((short, i) => (
+            <ShortPhone key={short} url={short} index={i} />
           ))}
         </div>
 
@@ -101,7 +123,7 @@ export default function SocialMedia() {
             href="https://www.instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto border border-gray-200 text-gray-950 px-8 py-4 rounded-full font-bold text-[16px] flex items-center justify-center gap-3 hover:bg-gray-50 hover:scale-[1.02] transition-all"
+            className="w-full sm:w-auto bg-gradient-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5] text-white px-8 py-4 rounded-full font-bold text-[16px] flex items-center justify-center gap-3 hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg"
           >
             <Instagram size={22} />
             Follow on Instagram

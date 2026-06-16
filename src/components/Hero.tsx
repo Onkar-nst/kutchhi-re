@@ -23,7 +23,7 @@ export default function Hero() {
               src={heroSlides[active]}
               alt="Kutchhi Caterers event"
               initial={{ opacity: 0, scale: 1.08 }}
-              animate={{ opacity: 0.7, scale: 1 }}
+              animate={{ opacity: 0.55, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ opacity: { duration: 1.2 }, scale: { duration: 5, ease: "easeOut" } }}
               className="absolute inset-0 w-full h-full object-cover"
@@ -38,64 +38,54 @@ export default function Hero() {
         />
 
 
-        {/* Center Main Text */}
-        <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pointer-events-none w-full">
-          <h2 className="text-white/90 font-normal italic text-[1.05rem] md:text-[1.4rem] mb-2 md:mb-3 tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
-            Enjoy the taste of
-          </h2>
+        {/* Center Main Text — left aligned */}
+        <div className="flex-1 flex flex-col items-start justify-center z-10 px-6 sm:px-10 md:px-12 lg:px-16 pointer-events-none w-full">
+          <div className="flex items-center gap-3 mb-3 md:mb-4">
+            <span className="h-px w-8 md:w-12 bg-[#e58a43]" />
+            <h2 className="text-[#e9b07a] font-normal text-[1.1rem] md:text-[1.45rem] tracking-[0.06em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
+              Enjoy the taste of
+            </h2>
+          </div>
 
-          <h1 className="text-white font-medium text-[2.75rem] sm:text-[4rem] md:text-[5rem] leading-[0.95] tracking-[-0.01em] mb-5 md:mb-7 pointer-events-auto selection:bg-white/20 drop-shadow-[0_4px_24px_rgba(0,0,0,0.55)]">
+          <h1 className="text-white font-medium text-left text-[2.6rem] sm:text-[3.8rem] md:text-[4.6rem] leading-[0.95] tracking-[-0.01em] mb-5 md:mb-7 pointer-events-auto selection:bg-white/20 drop-shadow-[0_4px_24px_rgba(0,0,0,0.55)]">
             Kutchhi
             <br className="md:hidden" />
             <span>{" "}</span>Caterers
           </h1>
 
-          <p className="text-white/85 text-[13px] md:text-[15px] max-w-[340px] md:max-w-[460px] text-center font-medium leading-[1.6] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+          <p className="text-white/85 text-[15px] md:text-[17px] max-w-[420px] md:max-w-[520px] text-left font-medium leading-[1.55] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
             We don't serve just food, we serve memories. That's not your
             typical promise. It's unnecessarily good. Maybe that's because
             we're unnecessarily driven.
           </p>
-        </div>
 
-        {/* Bottom Elements Wrapper */}
-        <div className="relative w-full z-20 h-auto">
-          {/* Glass Cards - Bottom Left */}
-          <div className="absolute top-20 right-5 md:top-auto md:bottom-8 md:left-8 md:right-auto flex gap-2.5 md:gap-4 items-end">
-            <div className="bg-[#ffffff]/5 backdrop-blur-[24px] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 w-[160px] md:w-[240px] ">
-              <h3 className="text-white font-medium tracking-[-0.04em] text-[1.75rem] md:text-[2.5rem] mb-1.5 leading-none">
-                25<span className="text-[1.25rem] md:text-[1.75rem]">+Yrs</span>
-              </h3>
-              <p className="text-white/70 text-[11px] md:text-[13.5px] font-medium leading-[1.5]">
-                "Pure Indian" is exactly where we want to be. All in the name of
-                authentic cuisine.
-              </p>
+          {/* Stats strip — single moving line (marquee) */}
+          <div className="mt-6 md:mt-8 w-full max-w-full md:max-w-[680px] overflow-hidden pointer-events-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+            <div className="flex w-max items-stretch animate-marquee">
+              {[0, 1].map((dup) => (
+                <div key={dup} aria-hidden={dup === 1} className="flex items-stretch shrink-0">
+                  {[
+                    { value: "25+", label: "Years of Service" },
+                    { value: "1500+", label: "Events Catered" },
+                    { value: "1M+", label: "Happy Guests" },
+                    { value: "250+", label: "Menu Options" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex items-stretch">
+                      <div className="flex flex-col justify-center px-5 md:px-7 whitespace-nowrap">
+                        <span className="text-[#e9b07a] font-semibold text-[1.5rem] md:text-[2rem] leading-none tracking-[-0.02em] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+                          {stat.value}
+                        </span>
+                        <span className="text-white/75 text-[11px] md:text-[13px] font-medium uppercase tracking-[0.14em] mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                          {stat.label}
+                        </span>
+                      </div>
+                      <span className="w-px self-stretch bg-[#e58a43]/30" />
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
-
-            {/* <div className="bg-[#ffffff]/5 backdrop-blur-[24px] border border-white/10 rounded-full p-[6px] md:p-2 flex flex-col gap-[6px] md:gap-2">
-              <div
-                className="w-[42px] h-[42px] md:w-[60px] md:h-[60px] rounded-full bg-cover bg-center border border-white/10"
-                style={{
-                  backgroundImage:
-                    'url("https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=150&q=80")',
-                }}
-              />
-              <div
-                className="w-[42px] h-[42px] md:w-[60px] md:h-[60px] rounded-full bg-cover bg-center border border-white/10"
-                style={{
-                  backgroundImage:
-                    'url("https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=150&q=80")',
-                }}
-              />
-              <div
-                className="w-[42px] h-[42px] md:w-[60px] md:h-[60px] rounded-full bg-cover bg-center border border-white/10"
-                style={{
-                  backgroundImage:
-                    'url("https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=150&q=80")',
-                }}
-              />
-            </div> */}
           </div>
-
         </div>
 
         {/* Slide indicator dots */}

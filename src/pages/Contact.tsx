@@ -28,24 +28,38 @@ export default function Contact() {
       {/* Main Contact Section */}
       <ContactForm />
 
-      {/* Additional Info / Map Placeholder can go here if needed */}
+      {/* Visit our central kitchen — heading + full-width map */}
       <div className="w-full px-3 pb-16 md:pb-24 flex flex-col items-center">
-        <div className="w-full max-w-[1920px] rounded-4xl bg-white border border-black/5 p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex flex-col gap-4 max-w-md text-center md:text-left">
-            <h2 className="text-gray-950 font-black text-3xl md:text-4xl tracking-tight">Visit our central kitchen</h2>
-            <p className="text-gray-500 font-medium leading-relaxed">
-              Experience the magic where our chefs create these masterpieces. We maintain the highest standards of hygiene and tradition.
-            </p>
-          </div>
-          <div className="w-full md:w-auto flex flex-col gap-4">
+        <div className="w-full max-w-[1920px] flex flex-col gap-6 md:gap-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 px-2 md:px-2">
+            <div className="flex flex-col gap-4 max-w-md text-center md:text-left">
+              <h2 className="text-gray-950 font-black text-3xl md:text-4xl tracking-tight">Visit our central kitchen</h2>
+              <p className="text-gray-500 font-medium leading-relaxed">
+                Experience the magic where our chefs create these masterpieces. We maintain the highest standards of hygiene and tradition.
+              </p>
+            </div>
             <a
               href="https://www.google.com/maps/search/?api=1&query=Plot+No.+103%2C+Laxmi+Narayan+Ln%2C+Opp.+Rambaug+Hall%2C+Matunga%2C+Mumbai+400019"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-black text-white px-10 py-5 rounded-full font-bold text-center hover:bg-gray-900 transition-colors shadow-xl"
+              className="bg-black text-white px-10 py-5 rounded-full font-bold text-center hover:bg-gray-900 transition-colors shadow-xl whitespace-nowrap self-center md:self-auto"
             >
               Get Directions
             </a>
+          </div>
+
+          {/* Full-width embedded Google Map */}
+          <div className="w-full rounded-4xl overflow-hidden border border-black/5 shadow-xl bg-gray-100">
+            <iframe
+              title="Kutchhi Caterers location"
+              src="https://www.google.com/maps?q=Plot%20No.%20103%2C%20Laxmi%20Narayan%20Ln%2C%20Opp.%20Rambaug%20Hall%2C%20Matunga%2C%20Mumbai%20400019&output=embed"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+              className="w-full h-[360px] md:h-[480px] block"
+            />
           </div>
         </div>
       </div>

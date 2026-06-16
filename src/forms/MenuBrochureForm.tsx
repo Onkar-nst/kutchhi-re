@@ -1,25 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Send, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { menuPdfs } from '../data';
+
+interface MenuPdf {
+  title: string;
+  file: string;
+}
 
 interface MenuBrochureFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+  /** When set, unlocking opens this single PDF instead of listing every menu card. */
+  pdf?: MenuPdf | null;
 }
 
-export default function MenuBrochureForm({ isOpen, onClose, onSuccess }: MenuBrochureFormProps) {
+export default function MenuBrochureForm({ isOpen, onClose, onSuccess, pdf }: MenuBrochureFormProps) {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+
+  // Reset to the form every time the modal is (re)opened.
+  useEffect(() => {
+    if (isOpen) setFormState('idle');
+  }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('submitting');
-    
+
     // Simulate API call
     setTimeout(() => {
       setFormState('success');
       if (onSuccess) onSuccess();
+      // For a specific menu card, open its PDF straight away.
+      if (pdf) window.open(pdf.file, '_blank', 'noopener,noreferrer');
     }, 1500);
   };
 
@@ -65,19 +79,21 @@ export default function MenuBrochureForm({ isOpen, onClose, onSuccess }: MenuBro
                       It's Ready!
                     </h3>
                     <p className="text-gray-500 font-medium text-base">
-                      Tap any section below to view our full menu.
+                      {pdf
+                        ? `Opening the ${pdf.title} menu. Tap below if it didn't open.`
+                        : 'Tap any section below to view our full menu.'}
                     </p>
                   </div>
                   <div className="w-full flex flex-col gap-3">
-                    {menuPdfs.map((pdf) => (
+                    {(pdf ? [pdf] : menuPdfs).map((item) => (
                       <a
-                        key={pdf.title}
-                        href={pdf.file}
+                        key={item.title}
+                        href={item.file}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full bg-gray-50 hover:bg-[#111] text-gray-950 hover:text-white border border-gray-100 hover:border-[#111] py-4 px-6 rounded-2xl font-bold text-[16px] tracking-tight transition-all flex items-center justify-between gap-3 group"
                       >
-                        <span>{pdf.title}</span>
+                        <span>{item.title}</span>
                         <Eye size={20} className="text-[#e58a43] group-hover:text-white transition-colors" />
                       </a>
                     ))}

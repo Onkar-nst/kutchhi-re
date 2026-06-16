@@ -2,7 +2,7 @@ import { Play } from "lucide-react";
 
 export default function AboutVideo() {
   return (
-    <section className="bg-gray-50 w-full px-3 pb-16 md:pb-24 flex flex-col items-center">
+    <section className="bg-gray-50 w-full px-4 md:px-6 lg:px-8 pb-16 md:pb-24 flex flex-col items-center">
       <div className="w-full max-w-[1920px] relative aspect-video rounded-4xl  overflow-hidden bg-black shadow-2xl group cursor-pointer">
         
         {/* Video Thumbnail / Placeholder */}

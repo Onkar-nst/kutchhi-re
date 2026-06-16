@@ -27,7 +27,7 @@ export default function AboutPhilosophy() {
 
             <div className="relative">
               <Quote className="absolute -top-6 -left-6 text-[#7A1A1A]/30 w-16 h-16" />
-              <p className="text-white/90 font-serif italic text-xl md:text-2xl leading-relaxed max-w-3xl border-l-4 border-[#e58a43] pl-8 py-2">
+              <p className="text-white/90 font-display text-xl md:text-2xl leading-relaxed max-w-3xl border-l-4 border-[#e58a43] pl-8 py-2">
                 "Each country has its own kind of food and taste to offer. India has a very variety of dishes and the hospitality of the Indians is legendary. In Sanskrit Literature the three famous words 'Atithi Devo Bhava' or 'the guest is truly our god' are a dictum of hospitality in India."
               </p>
             </div>

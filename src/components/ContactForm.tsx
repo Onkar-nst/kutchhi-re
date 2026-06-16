@@ -1,5 +1,5 @@
 
-import { Send, MapPin, Phone, Clock } from "lucide-react";
+import { Send, MapPin, Phone, Clock, ChevronDown } from "lucide-react";
 
 export default function ContactForm() {
   return (
@@ -36,40 +36,65 @@ export default function ContactForm() {
             </h3>
             
             <div className="flex flex-col gap-5">
+              {/* Row 1 — City */}
               <div className="flex flex-col gap-2">
                 <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Enter your city</label>
-                <input 
-                  type="text" 
-                  placeholder="Mumbai, Maharashtra" 
+                <input
+                  type="text"
+                  placeholder="Mumbai, Maharashtra"
                   className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all text-gray-950 font-medium text-lg placeholder:text-gray-300 shadow-sm"
                 />
               </div>
 
+              {/* Row 2 — Contact No. + Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2">
                   <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Contact No.</label>
-                  <input 
-                    type="tel" 
-                    placeholder="+91 989 213 4834" 
+                  <input
+                    type="tel"
+                    placeholder="+91 989 213 4834"
                     className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all text-gray-950 font-medium text-lg placeholder:text-gray-300 shadow-sm"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Event Date</label>
-                  <input 
-                    type="date" 
-                    className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all text-gray-950 font-medium text-[17px] shadow-sm appearance-none"
+                  <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Enter Your Email</label>
+                  <input
+                    type="email"
+                    placeholder="hello@example.com"
+                    className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all text-gray-950 font-medium text-lg placeholder:text-gray-300 shadow-sm"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Enter Your Email</label>
-                <input 
-                  type="email" 
-                  placeholder="hello@example.com" 
-                  className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all text-gray-950 font-medium text-lg placeholder:text-gray-300 shadow-sm"
-                />
+              {/* Row 3 — Event Date + Event Type */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Event Date</label>
+                  <input
+                    type="date"
+                    className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all text-gray-950 font-medium text-[17px] shadow-sm appearance-none"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-500 font-bold text-sm ml-4 uppercase tracking-wide">Type of Event</label>
+                  <div className="relative">
+                    <select
+                      defaultValue=""
+                      className="w-full bg-white border border-gray-200 rounded-full px-6 py-4 pr-12 outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-lg shadow-sm appearance-none cursor-pointer text-gray-950 invalid:text-gray-300"
+                      required
+                    >
+                      <option value="" disabled>Select event type</option>
+                      <option value="corporate">Corporate Event</option>
+                      <option value="wedding">Wedding</option>
+                      <option value="sangeet">Sangeet</option>
+                      <option value="buffet">Buffet Catering</option>
+                      <option value="birthday">Birthday Party</option>
+                      <option value="anniversary">Anniversary</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <ChevronDown size={20} className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                  </div>
+                </div>
               </div>
 
               <button className="mt-4 bg-gray-950 hover:bg-gray-800 text-white px-8 py-5 rounded-full flex items-center justify-center gap-3 transition-colors shadow-xl group">

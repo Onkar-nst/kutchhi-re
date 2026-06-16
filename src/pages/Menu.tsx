@@ -74,7 +74,7 @@ export default function Menu() {
         <div className="relative w-full rounded-4xl overflow-hidden bg-black flex flex-col min-h-[70vh] md:min-h-[80vh]">
           {/* Background Image */}
           <div 
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-50"
+            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40"
             style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=2000&q=80")' }}
           />
           <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent z-0 pointer-events-none" />
@@ -202,7 +202,7 @@ export default function Menu() {
         <div className="max-w-480 mx-auto flex flex-col gap-10">
           <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-end gap-6 px-2 md:px-0">
             <p className="text-gray-600 text-[15px] md:text-[17px] font-medium leading-[1.6] max-w-[420px]">
-              Browse our menu cards section by section. Each opens in a new tab — view it online or save it for later.
+              Browse our menu cards section by section. Each opens in a new tab, view it online or save it for later.
             </p>
             <h2 className="text-gray-950 font-semibold text-[2.4rem] sm:text-[3.4rem] md:text-[4.5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
               Menu Cards

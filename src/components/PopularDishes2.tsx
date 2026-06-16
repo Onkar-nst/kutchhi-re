@@ -1,44 +1,17 @@
 import { useState } from 'react';
-import { ArrowRight, Star, Plus, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { popularDishesData, allMenuData } from '../data';
+import { ArrowRight, Star, Plus, X, Eye } from 'lucide-react';
+import { menuPdfs } from '../data';
+import MenuBrochureForm from '../forms/MenuBrochureForm';
 
-// Maps a dish name → the menu route used by /menu/:category
-const categoryRouteMap: Record<string, string> = {
-  'veg thali': 'veg-thali',
-  'beverages': 'beverages',
-  'starters': 'starters',
-  'soups & salads': 'soups',
-  'main course': 'main-course',
-  'desserts': 'desserts',
-  'cuisine counters': 'cuisine-counters',
-};
-
-// Maps a dish name → the key inside allMenuData (for the inline preview)
-const menuDataKeyMap: Record<string, string> = {
-  'veg thali': 'veg-thali',
-  'beverages': 'beverages',
-  'starters': 'starters',
-  'soups & salads': 'soups',
-  'main course': 'mainCourse',
-  'desserts': 'desserts',
-  'cuisine counters': 'cuisineCounters',
-};
-
-// A few sample items to tease, pulled live from the menu data
-const previewItems = (name: string): string[] => {
-  const key = menuDataKeyMap[name.toLowerCase()];
-  const data = key ? (allMenuData as Record<string, any>)[key] : null;
-  if (!data) return [];
-  return data.categories
-    .flatMap((c: { items: string[] }) => c.items)
-    .filter((it: string) => !/^\d+ more\.\.\./.test(it))
-    .slice(0, 6);
-};
+type MenuPdf = (typeof menuPdfs)[number];
 
 export default function PopularDishes2() {
   // Which panel is opened in place (mobile tap / desktop click). null = none.
   const [active, setActive] = useState<number | null>(null);
+  // The PDF whose details popup is currently open (null = closed).
+  const [selectedPdf, setSelectedPdf] = useState<MenuPdf | null>(null);
+  // "View Full Menu" → unlock-gated popup listing every menu section.
+  const [fullMenuOpen, setFullMenuOpen] = useState(false);
 
   return (
     <section className="bg-gray-50 w-full px-3 sm:px-4 md:px-5 lg:px-6 pb-16 md:pb-24 flex flex-col items-center">
@@ -54,18 +27,20 @@ export default function PopularDishes2() {
               popular cuisines
             </h2>
           </div>
-          <Link to="/menu" className="bg-white text-gray-950 px-6 py-3.5 md:px-9 md:py-4.5 rounded-full flex items-center justify-center border border-transparent hover:bg-gray-200 transition-colors pointer-events-auto shadow-lg">
+          <button
+            type="button"
+            onClick={() => setFullMenuOpen(true)}
+            className="bg-white text-gray-950 px-6 py-3.5 md:px-9 md:py-4.5 rounded-full flex items-center justify-center border border-transparent hover:bg-gray-200 transition-colors pointer-events-auto shadow-lg"
+          >
             <span className="font-semibold text-[16px] md:text-[18px] tracking-[-0.01em] leading-none">View Full Menu</span>
-          </Link>
+          </button>
         </div>
 
         {/* Expanding panels — vertical accordion on mobile, horizontal on desktop.
             Tapping/clicking a panel opens it in place (no redirect). */}
         <div className="flex flex-col md:flex-row h-200 md:h-150 lg:h-175 gap-3 md:gap-4 w-full">
-          {popularDishesData.map((dish, i) => {
+          {menuPdfs.map((pdf, i) => {
             const isActive = active === i;
-            const items = previewItems(dish.name);
-            const route = categoryRouteMap[dish.name.toLowerCase()] || dish.name.toLowerCase().replace(/\s+/g, '-');
 
             return (
               <div
@@ -79,22 +54,14 @@ export default function PopularDishes2() {
                   className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 group-hover:scale-105 group-hover:opacity-100 ${
                     isActive ? 'opacity-100 scale-105' : 'opacity-60'
                   }`}
-                  style={{ backgroundImage: `url(${dish.img})` }}
+                  style={{ backgroundImage: `url(${pdf.img})` }}
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/20 z-0" />
-
-                {dish.featured && (
-                  <div className={`absolute top-4 md:top-6 left-4 md:left-6 z-10 transition-opacity duration-500 delay-200 ${isActive ? 'opacity-100' : 'opacity-0 md:group-hover:opacity-100'}`}>
-                    <span className="bg-[#e58a43] text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase shadow-md">
-                      Bestseller
-                    </span>
-                  </div>
-                )}
 
                 {/* Collapsed label — hidden once the panel is open */}
                 <div className={`absolute inset-0 flex items-end md:items-center justify-between md:justify-center px-5 pb-6 md:px-0 md:pb-12 z-10 transition-opacity duration-300 ${isActive ? 'opacity-0' : 'opacity-100 md:group-hover:opacity-0'}`}>
                   <h3 className="text-white font-bold text-[1.5rem] md:text-[2rem] tracking-tight leading-none md:-rotate-90 md:-translate-y-24 whitespace-nowrap drop-shadow-lg">
-                    {dish.name}
+                    {pdf.title}
                   </h3>
                   {/* Plus affordance — only on mobile collapsed bars */}
                   <span className="md:hidden shrink-0 w-10 h-10 rounded-full border border-white/25 bg-white/10 flex items-center justify-center text-white">
@@ -109,10 +76,10 @@ export default function PopularDishes2() {
                   <div className="flex justify-between items-start gap-4">
                     <div className="flex flex-col gap-1.5">
                       <h3 className="text-white font-black text-[1.6rem] md:text-[2.2rem] lg:text-[2.8rem] tracking-[-0.03em] leading-none drop-shadow-md">
-                        {dish.name}
+                        {pdf.title}
                       </h3>
-                      <p className="text-white/75 font-medium text-[13px] md:text-[15px] max-w-md leading-snug">
-                        {dish.desc}
+                      <p className="text-white/80 font-medium text-[15px] md:text-[17px] max-w-lg leading-relaxed">
+                        {pdf.desc}
                       </p>
                     </div>
                     {/* Close on mobile */}
@@ -126,10 +93,10 @@ export default function PopularDishes2() {
                     </button>
                   </div>
 
-                  {/* Item teaser chips */}
-                  {items.length > 0 && (
+                  {/* Item teaser chips — a few dishes from this menu PDF */}
+                  {pdf.preview.length > 0 && (
                     <div className="flex flex-wrap gap-2">
-                      {items.map((item, k) => (
+                      {pdf.preview.map((item, k) => (
                         <span key={k} className="text-white/90 text-[12px] md:text-[13px] font-medium bg-white/10 border border-white/15 rounded-full px-3 py-1.5">
                           {item}
                         </span>
@@ -137,14 +104,15 @@ export default function PopularDishes2() {
                     </div>
                   )}
 
-                  <Link
-                    to={`/menu/${route}`}
-                    onClick={(e) => e.stopPropagation()}
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setSelectedPdf(pdf); }}
                     className="mt-1 w-fit flex items-center gap-2 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full pl-5 pr-4 py-2.5 hover:bg-[#e58a43] hover:text-white transition-colors"
                   >
-                    View full menu
+                    <Eye size={16} strokeWidth={2.5} />
+                    View PDF
                     <ArrowRight strokeWidth={2.5} size={16} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             );
@@ -152,6 +120,19 @@ export default function PopularDishes2() {
         </div>
 
       </div>
+
+      {/* Details popup — unlocking opens this card's PDF */}
+      <MenuBrochureForm
+        isOpen={selectedPdf !== null}
+        onClose={() => setSelectedPdf(null)}
+        pdf={selectedPdf}
+      />
+
+      {/* Full menu popup — unlocking lists every menu section */}
+      <MenuBrochureForm
+        isOpen={fullMenuOpen}
+        onClose={() => setFullMenuOpen(false)}
+      />
     </section>
   );
 }

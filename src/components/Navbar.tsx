@@ -30,9 +30,6 @@ export default function Navbar() {
         <NavLink to="/services" className={navLinkClass}>
           Services
         </NavLink>
-        <NavLink to="/menu" className={navLinkClass}>
-          Menu
-        </NavLink>
         {/* <NavLink to="/instagram" className={navLinkClass}>
           <div className="flex items-center gap-2">
             <Instagram size={18} />

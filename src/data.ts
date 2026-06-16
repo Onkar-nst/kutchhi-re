@@ -424,7 +424,7 @@ export const servicesData = [
     description: "Make your special day truly memorable with our comprehensive wedding catering. We go places others wouldn't to ensure your feast is perfect.",
     fullDescription: "Your wedding day is a once-in-a-lifetime event, and we believe the food should reflect that. From traditional Gujarati feasts to contemporary fusion cuisines, we provide a tailored catering experience that will leave your guests in awe.",
     image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80",
-    link: "/services/wedding",
+    link: "/services?tab=wedding",
     gridSpan: "md:col-span-7",
     features: ["Custom Menu Design", "Live Counter Experience", "Full Service Staff", "Exquisite Table Settings"]
   },
@@ -434,7 +434,7 @@ export const servicesData = [
     description: "Elevate your corporate events with premium catering designed to impress clients and colleagues.",
     fullDescription: "Whether it's a high-stakes board meeting, a product launch, or a company-wide celebration, our corporate catering services deliver professionalism and flavor in equal measure.",
     image: "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80",
-    link: "/services/corporate",
+    link: "/services?tab=corporate",
     gridSpan: "md:col-span-5",
     features: ["Breakfast & Lunch Boxes", "Themed Coffee Breaks", "Executive Dining", "Gala Dinner Setup"]
   },
@@ -442,9 +442,9 @@ export const servicesData = [
     id: "sangeet",
     title: "Sangeet",
     description: "Vibrant mocktails, festive bites and dazzling dessert tables that keep the celebration dancing all night.",
-    fullDescription: "A sangeet calls for food as lively as the music. We bring colourful mocktail bars, roaming snacks and interactive dessert stations that match the energy of every beat — keeping your guests delighted from the first dhol to the last dance.",
+    fullDescription: "A sangeet calls for food as lively as the music. We bring colourful mocktail bars, roaming snacks and interactive dessert stations that match the energy of every beat, keeping your guests delighted from the first dhol to the last dance.",
     image: `${PHOTOS}/7.JPG`,
-    link: "/services/sangeet",
+    link: "/services?tab=sangeet",
     gridSpan: "md:col-span-5",
     features: ["Signature Mocktail Bar", "Live Chaat & Snacks", "Dessert Stations", "Roaming Service"]
   },
@@ -454,19 +454,19 @@ export const servicesData = [
     description: "A grand spread of authentic Indian delicacies, offering a diverse and rich culinary experience for all your guests.",
     fullDescription: "Our buffet catering is a grand celebration of Indian culinary heritage. We offer a wide variety of dishes, from regional specialties to popular favorites, all served with the warmth and hospitality Kutchhi Caterers is known for.",
     image: `${PHOTOS}/11.JPG`,
-    link: "/services/buffet",
+    link: "/services",
     gridSpan: "md:col-span-7",
     features: ["Authentic Gujarati Thali", "Multi-Cuisine Options", "Elegant Buffet Setup", "Hygiene & Safety Focused"]
   }
 ];
 
 /* ────────────────────────────────────────────────
-   HERO SLIDER — real event photos from /public
+   HERO SLIDER, real event photos from /public
    ──────────────────────────────────────────────── */
 export const heroSlides = [
-  `${PHOTOS}/10.JPG`,
-  `${PHOTOS}/4.JPG`,
-  `${PHOTOS}/3.JPG`,
+  `${PHOTOS}/17.JPG`,
+  `${PHOTOS}/21.JPG`,
+  `${PHOTOS}/14.JPG`,
   `${PHOTOS}/9.JPG`,
 ];
 
@@ -479,49 +479,61 @@ const PDF_DIR = '/drive-download-20260611T075748Z-3-001';
 export const menuPdfs = [
   {
     title: 'Beverages & Starters',
-    desc: 'Fresh juices, mocktails and signature starters.',
+    desc: 'Begin the celebration with our freshly pressed juices, vibrant mocktails and a spread of signature starters — crisp, flavour-packed bites crafted to set the mood for the feast ahead.',
     file: encodeURI(`${PDF_DIR}/beverages and starters 01_compressed (1).pdf`),
     thumb: '/menu-thumbs/beverages-starters.png',
+    img: `${PHOTOS}/6.JPG`,
+    preview: ['Kesariya Coconut', 'Virgin Mojito', 'Paneer Tikka', 'Hara Bhara Kabab', 'Spring Rolls'],
   },
   {
     title: 'Soups & Salads',
-    desc: 'Warm soups and crisp, refreshing salads.',
+    desc: 'Comforting hot soups simmered to perfection alongside crisp, garden-fresh salads — a light, refreshing course balancing every rich flavour on your plate.',
     file: encodeURI(`${PDF_DIR}/Soups and salads_compressed (1).pdf`),
     thumb: '/menu-thumbs/soups-salads.png',
+    img: `${PHOTOS}/22.JPG`,
+    preview: ['Tomato Soup', 'Manchow Soup', 'Green Salad', 'Caesar Salad', 'Russian Salad'],
   },
   {
     title: 'Cuisine Counters I',
-    desc: 'Live counters serving global cuisines.',
+    desc: 'Interactive live counters where our chefs serve cuisines from across the globe, freshly prepared in front of your guests for a vibrant, theatrical dining experience.',
     file: encodeURI(`${PDF_DIR}/cuisine counters - 1_compressed (1).pdf`),
     thumb: '/menu-thumbs/cuisine-counters-1.png',
+    img: `${PHOTOS}/3.JPG`,
+    preview: ['Masala Dosa', 'Idli', 'Medu Vada', 'Uttapam', 'Pongal'],
   },
   {
     title: 'Cuisine Counters II',
-    desc: 'More live stations and chef specials.',
+    desc: 'Even more live stations and chef specials — from regional delicacies to fusion creations, each counter is designed to surprise and delight at every turn of your event.',
     file: encodeURI(`${PDF_DIR}/Cuisine counters 2_compressed (1).pdf`),
     thumb: '/menu-thumbs/cuisine-counters-2.png',
+    img: `${PHOTOS}/11.JPG`,
+    preview: ['Paneer Tikka', 'Tandoori Aloo', 'BBQ Corn', 'Grilled Veggies', 'Peri Peri Paneer'],
   },
   {
     title: 'Sweets & Desserts',
-    desc: 'Indian sweets and indulgent desserts.',
+    desc: 'End your meal on a sweet note with our classic Indian mithai and indulgent plated desserts — beautifully presented treats that leave a lasting, memorable finish.',
     file: encodeURI(`${PDF_DIR}/Sweets and desserts_compressed (1).pdf`),
     thumb: '/menu-thumbs/sweets-desserts.png',
+    img: `${PHOTOS}/9.JPG`,
+    preview: ['Gulab Jamun', 'Rasmalai', 'Jalebi', 'Kaju Katli', 'Choco Lava Cake'],
   },
 ];
 
 /* ────────────────────────────────────────────────
-   YOUTUBE SHORTS — 4 phone mockups on the homepage
-   TODO: replace these with the real @shahcaterers short
-   URLs/IDs later. Each entry may be a full URL OR a bare ID.
+   YOUTUBE SHORTS, 4 phone mockups on the homepage.
+   The socials section pulls the channel's LATEST shorts live from
+   /api/youtube-shorts (see api/_youtube.js). This list is only a
+   fallback shown if that request fails — keep it to recent IDs.
+   Each entry may be a full URL OR a bare 11-char video ID.
    ──────────────────────────────────────────────── */
 export const youtubeShorts = [
-  'https://www.youtube.com/shorts/TmpZ6S7Bj6k',
-  'https://www.youtube.com/shorts/3wShr5Q6EqM',
-  'https://www.youtube.com/shorts/qiZ9cZdOxM8',
-  'https://www.youtube.com/shorts/p3LXU9Ah7Cg',
+  'https://www.youtube.com/shorts/TEBYD2ZQ6nc',
+  'https://www.youtube.com/shorts/bw4KuKhKQoo',
+  'https://www.youtube.com/shorts/p9Zzs0zHEKA',
+  'https://www.youtube.com/shorts/xSKp-kyPg0E',
 ];
 
-export const youtubeChannelUrl = 'https://www.youtube.com/@shahcaterers';
+export const youtubeChannelUrl = 'https://www.youtube.com/@a-la-cartecaterers9402/shorts';
 
 // Accepts a full youtube/shorts/watch URL or a bare 11-char ID.
 export const youtubeShortId = (urlOrId: string): string => {
@@ -532,7 +544,7 @@ export const youtubeShortId = (urlOrId: string): string => {
 };
 
 /* ────────────────────────────────────────────────
-   EVENT GALLERY — shown inside each Service detail page
+   EVENT GALLERY, shown inside each Service detail page
    Three tabs: Wedding / Sangeet / Corporate (default Wedding)
    Each: title + description + detail + 3 stats + 10 captioned photos
    ──────────────────────────────────────────────── */
@@ -553,7 +565,7 @@ export const galleryData: Record<'wedding' | 'sangeet' | 'corporate', GalleryCat
     description:
       'From the mandap to the reception, we craft royal Gujarati spreads, elegant live counters and white-glove service that turn your big day into a feast your guests remember for years.',
     detail:
-      'Bespoke multi-cuisine menus, themed live counters, custom dessert tables and a dedicated service team — tailored to celebrations of every scale, from intimate gatherings to grand thousand-guest affairs.',
+      'Bespoke multi-cuisine menus, themed live counters, custom dessert tables and a dedicated service team, tailored to celebrations of every scale, from intimate gatherings to grand thousand-guest affairs.',
     stats: [
       { value: '500+', label: 'Weddings Catered' },
       { value: '50k+', label: 'Happy Guests' },
@@ -562,14 +574,14 @@ export const galleryData: Record<'wedding' | 'sangeet' | 'corporate', GalleryCat
     photos: [
       { src: `${PHOTOS}/1.jpg`, caption: 'Live buffet service in full flow' },
       { src: `${PHOTOS}/10.JPG`, caption: 'Sunset counter against a palace backdrop' },
-      { src: `${PHOTOS}/3.JPG`, caption: 'Indian Mints — signature dessert station' },
+      { src: `${PHOTOS}/3.JPG`, caption: 'Indian Mints, signature dessert station' },
       { src: `${PHOTOS}/4.JPG`, caption: 'Floral-draped soup stations' },
       { src: `${PHOTOS}/11.JPG`, caption: 'Copper handis at the grand spread' },
       { src: `${PHOTOS}/13.JPG`, caption: 'Hashbrown in wasabi with lotus stem' },
-      { src: `${PHOTOS}/12.JPG`, caption: 'Shaam Savera — chef’s special' },
+      { src: `${PHOTOS}/12.JPG`, caption: 'Shaam Savera, chef’s special' },
       { src: `${PHOTOS}/25.JPG`, caption: 'Comforting dal-chawal thali' },
       { src: `${PHOTOS}/17.JPG`, caption: 'Dry-fruit baklava rolls' },
-      { src: `${PHOTOS}/2.JPG`, caption: 'From The Farm — themed counter' },
+      { src: `${PHOTOS}/2.JPG`, caption: 'From The Farm, themed counter' },
     ],
   },
   sangeet: {
@@ -578,7 +590,7 @@ export const galleryData: Record<'wedding' | 'sangeet' | 'corporate', GalleryCat
     description:
       'Playful mocktails, festive street-food bites and dazzling dessert tables, served by roaming staff who keep the energy high and the dance floor full all night long.',
     detail:
-      'Signature mocktail bars, live chaat and tikka stations, interactive kulfi and jalebi carts, plus roaming service designed to match the rhythm of every beat — from the first dhol to the last dance.',
+      'Signature mocktail bars, live chaat and tikka stations, interactive kulfi and jalebi carts, plus roaming service designed to match the rhythm of every beat, from the first dhol to the last dance.',
     stats: [
       { value: '300+', label: 'Sangeet Nights' },
       { value: '80+', label: 'Mocktail Recipes' },
@@ -601,7 +613,7 @@ export const galleryData: Record<'wedding' | 'sangeet' | 'corporate', GalleryCat
     label: 'Corporate',
     title: 'Corporate Events',
     description:
-      'Refined plating, curated global counters and impeccable timing — catering that reflects your brand and impresses clients, partners and teams at every scale of event.',
+      'Refined plating, curated global counters and impeccable timing, catering that reflects your brand and impresses clients, partners and teams at every scale of event.',
     detail:
       'Executive breakfast and lunch boxes, themed coffee breaks, plated gala dinners and branded setups, all delivered with the logistics precision corporate occasions demand.',
     stats: [
@@ -619,7 +631,7 @@ export const galleryData: Record<'wedding' | 'sangeet' | 'corporate', GalleryCat
       { src: `${PHOTOS}/16.JPG`, caption: 'Pan-Asian dumpling platter' },
       { src: `${PHOTOS}/8.JPG`, caption: 'Steamed momos with trio of dips' },
       { src: `${PHOTOS}/3.JPG`, caption: 'Elegant live dessert counter' },
-      { src: `${PHOTOS}/12.JPG`, caption: 'Shaam Savera — signature curry' },
+      { src: `${PHOTOS}/12.JPG`, caption: 'Shaam Savera, signature curry' },
     ],
   },
 };

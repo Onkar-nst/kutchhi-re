@@ -1,4 +1,4 @@
-import { Home, Utensils, Info, PhoneCall, BookOpen } from "lucide-react";
+import { Home, Utensils, Info, PhoneCall } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function MobileNav() {
@@ -9,7 +9,6 @@ export default function MobileNav() {
     { name: "Home", path: "/", icon: Home },
     { name: "About", path: "/about", icon: Info },
     { name: "Services", path: "/services", icon: Utensils },
-    { name: "Menu", path: "/menu", icon: BookOpen },
     // { name: "Feed", path: "/instagram", icon: Instagram },
     { name: "Contact", path: "/contact", icon: PhoneCall },
   ];

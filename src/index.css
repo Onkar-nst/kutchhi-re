@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 @theme {
+  /* Body / UI: clean, modern, highly readable sans */
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  /* Display / headings: elegant high-contrast serif — premium wedding/catering feel */
+  --font-display: "Playfair Display", ui-serif, Georgia, "Times New Roman", serif;
 }
 
 @layer base {
@@ -18,7 +20,7 @@
   /* Elegant serif for every heading, site-wide */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -44,4 +46,21 @@
 
 .animate-spin-slow {
   animation: spin-slow 8s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }

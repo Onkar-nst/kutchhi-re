@@ -52,8 +52,8 @@ const serviceContent: Record<string, {
     ],
     process: [
       { step: "01", title: "Consultation", desc: "We sit with you to understand your vision, dietary needs, cultural preferences and the ambiance you desire for your special day." },
-      { step: "02", title: "Menu Curation", desc: "Our master chefs craft a bespoke multi-course menu tailored to your palate — from traditional Gujarati thalis to contemporary fusion." },
-      { step: "03", title: "Tasting Session", desc: "Experience your custom menu at our kitchen before the big day. Fine–tune every spice level, presentation, and portion size." },
+      { step: "02", title: "Menu Curation", desc: "Our master chefs craft a bespoke multi-course menu tailored to your palate, from traditional Gujarati thalis to contemporary fusion." },
+      { step: "03", title: "Tasting Session", desc: "Experience your custom menu at our kitchen before the big day. Fine-tune every spice level, presentation, and portion size." },
       { step: "04", title: "Flawless Execution", desc: "On your day, our team arrives hours early. Live counters, elegant buffet setups, and impeccable service from start to end." },
     ],
     gallery: [
@@ -62,10 +62,10 @@ const serviceContent: Record<string, {
       "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80",
     ],
     faqs: [
-      { q: "What's the minimum and maximum guest count?", a: "We comfortably cater intimate gatherings of 50 right up to grand functions of 5,000+ guests — with the same quality, hygiene and timing at every scale." },
+      { q: "What's the minimum and maximum guest count?", a: "We comfortably cater intimate gatherings of 50 right up to grand functions of 5,000+ guests, with the same quality, hygiene and timing at every scale." },
       { q: "Can we customise the menu and arrange a tasting?", a: "Absolutely. Every wedding menu is built from scratch around your palate and family traditions, and we invite you for a full tasting session at our kitchen before the big day." },
-      { q: "Which cities and regions do you serve?", a: "We're based in Mumbai and travel pan-India for weddings — our team handles logistics, setup and staffing wherever your venue is." },
-      { q: "How far in advance should we book?", a: "For peak wedding-season dates we recommend booking 3–6 months ahead. That said, reach out anytime — we'll always try to accommodate your date." },
+      { q: "Which cities and regions do you serve?", a: "We're based in Mumbai and travel pan-India for weddings, our team handles logistics, setup and staffing wherever your venue is." },
+      { q: "How far in advance should we book?", a: "For peak wedding-season dates we recommend booking 3 to 6 months ahead. That said, reach out anytime, we'll always try to accommodate your date." },
       { q: "Is everything pure vegetarian?", a: "Yes. We're a 100% pure-vegetarian, FSSAI-certified kitchen specialising in authentic Gujarati and multi-cuisine spreads." },
     ],
   },
@@ -81,7 +81,7 @@ const serviceContent: Record<string, {
       { step: "01", title: "Brief & Budget", desc: "We align with your event manager to understand the scale, dietary restrictions, and corporate branding requirements." },
       { step: "02", title: "Menu Design", desc: "From elegant breakfast boxes to multi-course gala dinners, we design a menu that matches your corporate identity." },
       { step: "03", title: "Logistics Planning", desc: "Our operations team maps out delivery, setup, and staffing with military precision for seamless execution." },
-      { step: "04", title: "Day-of Excellence", desc: "Professional uniformed staff, branded setups, and impeccable timing — your event runs without a hitch." },
+      { step: "04", title: "Day-of Excellence", desc: "Professional uniformed staff, branded setups, and impeccable timing, your event runs without a hitch." },
     ],
     gallery: [
       "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80",
@@ -90,14 +90,14 @@ const serviceContent: Record<string, {
     ],
     faqs: [
       { q: "What scale of corporate events do you handle?", a: "From boardroom lunches of 20 to company galas of 2,000+ guests, we scale seamlessly while keeping presentation, branding and timing sharp." },
-      { q: "Can the menu match our brand and dietary needs?", a: "Yes — we design menus around your brand, schedule and dietary requirements, and arrange tastings for larger events and recurring contracts." },
+      { q: "Can the menu match our brand and dietary needs?", a: "Yes, we design menus around your brand, schedule and dietary requirements, and arrange tastings for larger events and recurring contracts." },
       { q: "Which cities and regions do you serve?", a: "We're based in Mumbai with pan-India delivery and on-site setup for corporate functions of every kind." },
       { q: "How far in advance should we book?", a: "A week or two is ideal for plated events and gala dinners; we also handle last-minute and repeat corporate requests wherever possible." },
-      { q: "Is everything pure vegetarian?", a: "Yes — every menu is 100% pure vegetarian and FSSAI-certified, presented to executive standards." },
+      { q: "Is everything pure vegetarian?", a: "Yes, every menu is 100% pure vegetarian and FSSAI-certified, presented to executive standards." },
     ],
   },
   sangeet: {
-    tagline: "Small bites, big beats — fuel for the dance floor",
+    tagline: "Small bites, big beats, fuel for the dance floor",
     stats: [
       { value: "300+", label: "Sangeet Nights" },
       { value: "80+", label: "Mocktail Recipes" },
@@ -107,8 +107,8 @@ const serviceContent: Record<string, {
     process: [
       { step: "01", title: "Vibe & Theme", desc: "From neon nights to royal Rajwada, we match the food, counters and colours to the mood of your celebration." },
       { step: "02", title: "Mocktail & Bites", desc: "A signature mocktail bar paired with live chaat, tikka and global street-food stations that keep energy high." },
-      { step: "03", title: "Dessert Theatre", desc: "Interactive dessert stations — from kulfi carts to live jalebi — that double up as the perfect backdrop." },
-      { step: "04", title: "Roaming Service", desc: "Elegantly uniformed servers circulate the floor so guests never miss a beat — or a bite." },
+      { step: "03", title: "Dessert Theatre", desc: "Interactive dessert stations, from kulfi carts to live jalebi, that double up as the perfect backdrop." },
+      { step: "04", title: "Roaming Service", desc: "Elegantly uniformed servers circulate the floor so guests never miss a beat, or a bite." },
     ],
     gallery: [
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
@@ -117,10 +117,10 @@ const serviceContent: Record<string, {
     ],
     faqs: [
       { q: "What guest count works for a sangeet night?", a: "From close-knit sangeets of 80 to high-energy nights of 2,000+ guests, our counters and roaming service keep pace with the dance floor." },
-      { q: "Can we pick our own counters and theme?", a: "Yes — choose your signature mocktail bar, live chaat and dessert stations, and we'll tailor the spread and styling to your theme." },
+      { q: "Can we pick our own counters and theme?", a: "Yes, choose your signature mocktail bar, live chaat and dessert stations, and we'll tailor the spread and styling to your theme." },
       { q: "Which cities and regions do you serve?", a: "We're Mumbai-based with pan-India service for sangeet and pre-wedding functions." },
-      { q: "How far in advance should we book?", a: "2–3 months ahead is ideal during wedding season; we'll always try to make shorter notice work." },
-      { q: "Is everything pure vegetarian?", a: "Yes — 100% pure vegetarian and FSSAI-certified, from the mocktails to the desserts." },
+      { q: "How far in advance should we book?", a: "2 to 3 months ahead is ideal during wedding season; we'll always try to make shorter notice work." },
+      { q: "Is everything pure vegetarian?", a: "Yes, 100% pure vegetarian and FSSAI-certified, from the mocktails to the desserts." },
     ],
   },
   buffet: {
@@ -133,8 +133,8 @@ const serviceContent: Record<string, {
     ],
     process: [
       { step: "01", title: "Cuisine Selection", desc: "Pick from authentic Gujarati, Rajasthani, Punjabi, South Indian, Chinese, Continental and many more regional specialties." },
-      { step: "02", title: "Scale Planning", desc: "Whether 50 guests or 5,000 — we plan quantities, stations, and service flow for a perfect dining rhythm." },
-      { step: "03", title: "Setup & Décor", desc: "Elegant chafing dishes, live counters, themed table décor — we transform your venue into a culinary paradise." },
+      { step: "02", title: "Scale Planning", desc: "Whether 50 guests or 5,000, we plan quantities, stations, and service flow for a perfect dining rhythm." },
+      { step: "03", title: "Setup & Décor", desc: "Elegant chafing dishes, live counters, themed table décor, we transform your venue into a culinary paradise." },
       { step: "04", title: "Grand Service", desc: "Our trained service staff ensures hot food stays hot, stations stay restocked, and every guest leaves fully satisfied." },
     ],
     gallery: [
@@ -144,10 +144,10 @@ const serviceContent: Record<string, {
     ],
     faqs: [
       { q: "How many guests can a buffet serve?", a: "Our buffets run smoothly from 50 to 5,000+ guests, with stations and staffing planned for a perfect, unhurried dining flow." },
-      { q: "Which cuisines can we choose from?", a: "Pick from authentic Gujarati, Rajasthani, Punjabi, South Indian, Chinese, Continental and more — all tailored to your event and mixed to taste." },
+      { q: "Which cuisines can we choose from?", a: "Pick from authentic Gujarati, Rajasthani, Punjabi, South Indian, Chinese, Continental and more, all tailored to your event and mixed to taste." },
       { q: "Which cities and regions do you serve?", a: "We're Mumbai-based and cater pan-India for buffets of any scale." },
-      { q: "How far in advance should we book?", a: "1–3 months ahead is ideal for large buffets; smaller events can usually be arranged on shorter notice." },
-      { q: "Is everything pure vegetarian?", a: "Yes — entirely pure vegetarian and FSSAI-certified, served with the warm hospitality we're known for." },
+      { q: "How far in advance should we book?", a: "1 to 3 months ahead is ideal for large buffets; smaller events can usually be arranged on shorter notice." },
+      { q: "Is everything pure vegetarian?", a: "Yes, entirely pure vegetarian and FSSAI-certified, served with the warm hospitality we're known for." },
     ],
   },
 };
@@ -165,7 +165,7 @@ function FaqSection({ faqs }: { faqs: { q: string; a: string }[] }) {
         <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-end gap-8 px-2 md:px-0 mb-10 md:mb-16">
           <div className="flex flex-col gap-4 max-w-[400px]">
             <p className="text-gray-600 text-[15px] md:text-[17px] font-medium leading-[1.6]">
-              Everything you usually want to know before booking — answered.
+              Everything you usually want to know before booking, answered.
             </p>
           </div>
           <h2 className="text-gray-950 font-semibold text-[2.6rem] sm:text-[3.8rem] md:text-[5rem] leading-[0.95] tracking-[-0.02em] text-left md:text-right">
@@ -260,7 +260,7 @@ export default function ServiceDetail() {
           >
             <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url("${service.image}")` }} />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 z-0 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/45 z-0 pointer-events-none" />
 
           {/* Center text */}
           <div className="flex-1 flex flex-col items-center justify-center z-10 px-4 mt-8 md:mt-[-4rem] pb-44 md:pb-0 pointer-events-none w-full">
@@ -358,7 +358,7 @@ export default function ServiceDetail() {
       </section>
 
       {/* ════════════════════════════════════════
-           4. FEATURES — DARK BENTO CARDS
+           4. FEATURES, DARK BENTO CARDS
          ════════════════════════════════════════ */}
       <section className="w-full px-3 pb-10 md:pb-16">
         <div className="max-w-[1920px] mx-auto flex flex-col gap-10 md:gap-16">
@@ -399,7 +399,7 @@ export default function ServiceDetail() {
       </section>
 
       {/* ════════════════════════════════════════
-           5. PROCESS — STAGGERED TIMELINE (Aceternity style)
+           5. PROCESS, STAGGERED TIMELINE (Aceternity style)
          ════════════════════════════════════════ */}
       <section className="w-full px-3 py-10 md:py-20">
         <div className="max-w-[1920px] mx-auto">

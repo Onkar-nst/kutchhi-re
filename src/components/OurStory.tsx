@@ -10,7 +10,7 @@ const stats = [
 
 export default function OurStory() {
   return (
-    <section className="bg-gray-50 w-full px-3 py-10 md:py-16">
+    <section className="bg-gray-50 w-full px-4 md:px-6 lg:px-8 py-10 md:py-16">
       <div className="max-w-[1920px] mx-auto flex flex-col gap-10 md:gap-16">
 
         {/* ──── HEADER (same style as FeaturedServices / Hero) ──── */}
