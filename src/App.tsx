@@ -12,6 +12,7 @@ const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Menu = lazy(() => import("./pages/Menu"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // const InstagramFeed = lazy(() => import("./pages/InstagramFeed"));
@@ -48,6 +49,8 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/services/:id" element={<ServiceDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/menu/:category" element={<Menu />} />
           {/* <Route path="/instagram" element={<InstagramFeed />} /> */}
         </Route>
 

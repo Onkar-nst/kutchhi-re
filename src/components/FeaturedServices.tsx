@@ -84,7 +84,7 @@ export default function FeaturedServices() {
         </div>
 
         {/* Peeking carousel on mobile, 12-col bento on desktop */}
-        <div className="flex md:grid md:grid-cols-12 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory no-scrollbar -mr-4 pr-4 md:mr-0 md:pr-0 scroll-pl-1">
+        <div className="flex md:grid md:grid-cols-12 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory no-scrollbar touch-pan-x md:touch-auto -mr-4 pr-4 md:mr-0 md:pr-0 scroll-pl-1">
           {cards.map((service, index) => (
             <ServiceCard
               key={service.id}

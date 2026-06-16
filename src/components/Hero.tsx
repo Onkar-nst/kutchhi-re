@@ -12,6 +12,12 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
+  const scrollToCuisines = () => {
+    document
+      .getElementById("popular-cuisines")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen p-3 w-full flex flex-col items-center">
       <div className="relative w-full flex-1 rounded-4xl overflow-hidden bg-black flex flex-col">
@@ -104,20 +110,20 @@ export default function Hero() {
 
         {/* Bottom Right Explore Goodies Cutout - Refined to match perfectly symmetric curves */}
         <div className="absolute bottom-0 right-0 z-30">
-  
+
   <div className="relative bg-gray-50 rounded-tl-[28px] md:rounded-tl-[34px] pt-[12px] pl-[12px] md:pt-[16px] md:pl-[16px]">
-    
+
     {/* Top Curve */}
-    <svg 
+    <svg
       className="absolute bottom-full right-0 w-[20px] h-[20px] md:w-[28px] md:h-[28px] text-gray-50 pointer-events-none"
       viewBox="0 0 32 32"
       fill="currentColor"
     >
       <path d="M32 32V0C32 17.673 17.673 32 0 32H32Z" />
     </svg>
-    
+
     {/* Left Curve */}
-    <svg 
+    <svg
       className="absolute bottom-0 right-full w-[20px] h-[20px] md:w-[28px] md:h-[28px] text-gray-50 pointer-events-none"
       viewBox="0 0 32 32"
       fill="currentColor"
@@ -126,8 +132,12 @@ export default function Hero() {
     </svg>
 
     {/* BUTTON (SLIM + PREMIUM) */}
-    <button className="
-      bg-white 
+    <button
+      type="button"
+      onClick={scrollToCuisines}
+      className="
+      inline-flex items-center justify-center
+      bg-white
       text-gray-900
       px-[24px] py-[12px] md:px-[120px] md:py-[17px]
       rounded-full
@@ -136,9 +146,10 @@ export default function Hero() {
       hover:bg-gray-100
       transition-all
       pointer-events-auto
+      cursor-pointer
     ">
       <span className="font-medium text-[15px] md:text-[19px] tracking-[-0.02em] leading-none">
-        Explore Goodies
+        Explore Menu
       </span>
     </button>
 

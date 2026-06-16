@@ -14,7 +14,7 @@ export default function PopularDishes2() {
   const [fullMenuOpen, setFullMenuOpen] = useState(false);
 
   return (
-    <section className="bg-gray-50 w-full px-3 sm:px-4 md:px-5 lg:px-6 pb-16 md:pb-24 flex flex-col items-center">
+    <section id="popular-cuisines" className="scroll-mt-24 bg-gray-50 w-full px-3 sm:px-4 md:px-5 lg:px-6 pb-16 md:pb-24 flex flex-col items-center">
       <div className="w-full max-w-480 rounded-4xl overflow-hidden bg-black p-6 md:p-12 lg:p-16 flex flex-col gap-10 shadow-2xl">
 
         {/* Header */}

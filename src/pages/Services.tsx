@@ -158,7 +158,7 @@ export default function Services() {
           </div>
 
           {/* Scrollable track */}
-          <div className="flex gap-4 md:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0 pb-1">
+          <div className="flex gap-4 md:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory touch-pan-x -mx-4 px-4 md:mx-0 md:px-0 pb-1">
             {process.map((p, idx) => (
               <motion.div
                 key={idx}
@@ -278,7 +278,7 @@ export default function Services() {
 
           <div className="relative z-10 px-8 md:px-16 py-16 md:py-24 flex flex-col md:flex-row items-start md:items-center justify-between gap-10">
             <div className="max-w-xl">
-              <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-white font-black text-[2.5rem] md:text-[4rem] leading-[0.85] tracking-[-0.04em] mb-4">
+              <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-white font-medium text-[2.5rem] md:text-[3.75rem] leading-[1.05] tracking-[-0.01em] mb-4">
                 Let's make your<br />event unforgettable
               </motion.h2>
               <p className="text-white/60 text-[14px] md:text-[16px] font-medium leading-[1.6] max-w-sm">
